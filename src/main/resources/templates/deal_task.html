@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>处理的任务</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/nprogress.css">
+<link rel="stylesheet" type="text/css" href="assets/css/style_main.css">
+<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+<link rel="apple-touch-icon-precomposed" href="assets/images/icon.png">
+<link rel="shortcut icon" href="assets/images/favicon.png">
+<script src="assets/js/jquery-2.1.4.min.js"></script>
+<script src="assets/js/nprogress.js"></script>
+<script src="assets/js/jquery.lazyload.min.js"></script>
+<!--[if gte IE 9]>
+<script src="assets/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="assets/js/html5shiv.min.js" type="text/javascript"></script>
+<script src="assets/js/respond.min.js" type="text/javascript"></script>
+<script src="assets/js/selectivizr-min.js" type="text/javascript"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script>window.location.href='upgrade-browser.html';</script>
+<![endif]-->
+<body>
+<!--/*@thymesVar id="message" type="java"*/-->
+<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
+<div  style="margin: 20px 20px 20px 20px">
+
+    <div class="title">
+        <h3>处理的任务</h3>
+    </div>
+
+    <article class="excerpt excerpt-1" style="">
+        <a class="focus" href="show" title="诚邀零花钱任务，下单立即返现"  ><img class="thumb" data-original="assets/images/renwu.png" src="assets/images/renwu.png" alt="诚邀零花钱任务，下单立即返现" style="display: inline;"></a>
+        <header><a class="cat" href="show" title="零花钱任务" >零花钱任务<i></i></a>
+            <h2><a href="show" title="诚邀零花钱任务，下单立即返现" target="_blank" >诚邀零花钱任务，下单立即返现</a>
+            </h2>
+        </header>
+        <p class="meta">
+            <time class="time"><i class="glyphicon glyphicon-time"></i> 2016-10-14</time>
+            <span class="views"><i class="glyphicon glyphicon-eye-open"></i> 216</span>
+        </p>
+        <p class="note">诚邀零花钱任务，下单立即返现，2018冬季金丝绒运动裤女加绒哈伦侧边条纹休闲长裤卫裤加厚黃金绒¥126.002018冬季金丝绒运动裤女加绒哈伦侧边条纹休闲长裤卫裤加厚黃金绒¥126.002018冬季金丝绒运动裤女加绒哈伦侧边条纹休闲长裤卫裤加厚黃金绒¥126.00</p>
+    </article>
+
+    <!-- <nav class="pagination" style="display: none;">
+         <ul>
+             <li class="prev-page"></li>
+             <li class="active"><span>1</span></li>
+             <li><a href="?page=2">2</a></li>
+             <li class="next-page"><a href="?page=2">下一页</a></li>
+             <li><span>共 2 页</span></li>
+         </ul>
+     </nav>-->
+</div>
+</body>
+
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.ias.js"></script>
+<script src="assets/js/main_scripts.js"></script>
+<script src="assets/js/admin_task_scripts.js"></script>
+</html>

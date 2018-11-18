@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- CSS -->
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/supersized.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+
+    <body  >
+        <!--/*@thymesVar id="message" type="java"*/-->
+        <p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
+        <div class="page-container"  >
+            <h1>登录</h1>
+            <form action="login" method="post">
+                <input type="text" name="username" class="username" placeholder="用户名(旺旺号)">
+                <input type="password" name="password" class="password" placeholder="密码">
+                <button type="submit">登录</button>
+                <div align="center" class="reg_div">还没有账户?  <label  class="register" >立刻注册</label></div>
+                <div class="error"><span>+</span></div>
+            </form>
+        </div>
+
+
+        <div class="page-container-register" style="margin: 60px auto 0px auto;display: none" >
+            <h1>注册</h1>
+            <form action="registerUser" method="post">
+                <input type="text" name="username" class="username" placeholder="用户名(旺旺号)">
+                <input type="text" name="recommendation" class="recommendation" placeholder="推荐码">
+                <input type="text" name="phone" class="phone" placeholder="手机号码">
+                <input type="email" name="email" class="email" placeholder="邮箱">
+                <input type="password" name="password" class="password" placeholder="密码">
+                <input type="password" name="re_password" class="re_password" placeholder="确认密码">
+                <button type="submit">注册</button>
+                <div align="center" class="reg_div">已有账户? <label  class="login" >立刻登录</label></div>
+                <div class="error"><span>+</span></div>
+            </form>
+        </div>
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.8.2.min.js"></script>
+        <script src="assets/js/supersized.3.2.7.min.js"></script>
+        <script src="assets/js/supersized-init.js"></script>
+        <script src="assets/js/login_scripts.js"></script>
+
+    </body>
+
+</html>
+
