@@ -5,6 +5,7 @@ import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.FileUtils;
+import com.example.demo.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,11 @@ public class DbUserController {
 
     @RequestMapping("addUser")
     public String addUser(String username, String addUserId, Model model) {
+        if(Utils.isEmpty(addUserId)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
         String result = userService.addRecommendUser(username, addUserId);
         model.addAttribute("message",
                 result);
@@ -116,6 +122,12 @@ public class DbUserController {
     }
     @RequestMapping("getMyAllUserList")
     public String getMyAllUserList(String addUserId,int status, Model model) {
+        System.out.println("addUserId"+addUserId);
+        if(Utils.isEmpty(addUserId)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
         Object result = userService.getMyAllUserList(addUserId,status);
         if ("error".equals(result)) {
             model.addAttribute("message",

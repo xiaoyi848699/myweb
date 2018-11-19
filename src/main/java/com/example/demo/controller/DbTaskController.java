@@ -38,7 +38,7 @@ public class DbTaskController {
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
                         taskList);
-                Task task = taskList.get(0);
+//                Task task = taskList.get(0);
 //                logger.info("getMySendTask:"+task.getCreate_time());
 //                logger.info("getMySendTask:"+task.getCreate_time().toString());
 //                logger.info("getMySendTask:"+task.getCreate_time().getDate());
@@ -92,12 +92,18 @@ public class DbTaskController {
     }
     @RequestMapping("addTask")
     public String addTask(String title,String task_describe,int uid, @RequestParam("file") MultipartFile file, Model model){
+        if(uid <= 0){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
         if(Utils.isEmpty(title)){
             return "标题不能为空";
         }
         if(Utils.isEmpty(task_describe)){
             return "描述不能为空";
         }
+
         String path = FileUtils.saveCompressPic(file,400,600);
         Task task = new Task();
         task.setTitle(title);
