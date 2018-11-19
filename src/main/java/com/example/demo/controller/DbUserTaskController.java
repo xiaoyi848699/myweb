@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.po.Task;
 import com.example.demo.po.UserTask;
 import com.example.demo.service.UserTaskService;
 import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Controller
 public class DbUserTaskController {
+
+    private Logger logger =  LoggerFactory.getLogger(MyApplicationListener.class);
 
     @Autowired
     private UserTaskService userTaskService;
@@ -30,16 +35,18 @@ public class DbUserTaskController {
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("message",
                         taskList);
-                return "index.html";
+                return "index";
             }else{
                 model.addAttribute("message",
                         "暂无人接任务");
-                return "index.html";
+                return "index";
             }
         }
     }
-    @RequestMapping("getMyTaskUserTaskList")
-    public String getUserSendAllTaskAllUserTaskList(String uid,int status, Model model){//后台端使用
+    @RequestMapping("getMyTaskUserTaskList")//后台端使用
+    public String getMyTaskUserTaskList(String uid,int status, Model model){
+        System.out.println("getUserSendAllTaskAllUserTaskList:"+uid+status);
+        logger.debug("getUserSendAllTaskAllUserTaskList:"+uid);
         if(Utils.isEmpty(uid)){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
@@ -50,11 +57,25 @@ public class DbUserTaskController {
             return "404.html";
         }else{
             List<UserTask> taskList = (List<UserTask>) result;
+            logger.debug("taskList:"+taskList);
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
                         taskList);
                 return "deal_task";
             }else{
+                String strHint;
+               switch (status){
+                   case 1:
+                       strHint = "暂无人接任务";
+                       break;
+                   case 2:
+                       strHint = "暂无人完成任务";
+                       break;
+                   case 3:
+                       strHint = "暂无处理完成任务";
+                       break;
+
+               }
                 model.addAttribute("message",
                         "暂无人接任务");
                 return "deal_task";

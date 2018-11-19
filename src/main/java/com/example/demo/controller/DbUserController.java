@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,8 @@ import java.util.Map;
 //@RequestMapping("/user")   //请求路径/taobao/getUsers
 @Controller
 public class DbUserController {
+
+    private Logger logger =  LoggerFactory.getLogger(MyApplicationListener.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -115,7 +120,7 @@ public class DbUserController {
         if ("error".equals(result)) {
             model.addAttribute("message",
                     result);
-            return "404.html";
+            return "404";
         } else {
             List<User> userList = (List<User>) result;
             if(null == userList || userList.size() == 0){
