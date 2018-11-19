@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.filter.MyApplicationListener;
-import com.example.demo.po.Task;
 import com.example.demo.po.UserTask;
+import com.example.demo.po.UserTaskJoinInfo;
 import com.example.demo.service.UserTaskService;
 import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.Utils;
@@ -56,14 +56,14 @@ public class DbUserTaskController {
         if(null != result && "error".equals(result.toString())){
             return "404.html";
         }else{
-            List<UserTask> taskList = (List<UserTask>) result;
+            List<UserTaskJoinInfo> taskList = (List<UserTaskJoinInfo>) result;
             logger.debug("taskList:"+taskList);
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
                         taskList);
                 return "deal_task";
             }else{
-                String strHint;
+                String strHint = "暂无人接任务";
                switch (status){
                    case 1:
                        strHint = "暂无人接任务";
@@ -77,7 +77,7 @@ public class DbUserTaskController {
 
                }
                 model.addAttribute("message",
-                        "暂无人接任务");
+                        strHint);
                 return "deal_task";
             }
         }

@@ -1,9 +1,9 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.map.TaskMapper;
+import com.example.demo.map.UserTaskJoinMapper;
 import com.example.demo.map.UserTaskMapper;
-import com.example.demo.po.Task;
 import com.example.demo.po.UserTask;
+import com.example.demo.po.UserTaskJoinInfo;
 import com.example.demo.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,20 +38,21 @@ public class UserTaskServiceImpl implements UserTaskService {
             //1:已接任务 2 已经提交 3 商家已经处理 4任务异常 6任务已删除
             String sql;
             int userTaskStatus = 2;
-//            if(status == 0){//查询1、2
-//                userTaskStatus = 1;
-//                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.create_time desc ";
-//            }else
-            if(status == 1){
+            if(status == 0){//查询1、2
+                sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status BETWEEN 1 and 3  order by user_task.create_time desc ";
+                List<UserTaskJoinInfo> userList= jdbcTemplate.query(sql, new Object[]{uid},new UserTaskJoinMapper());
+                System.out.println("count"+userList);
+                return  userList;
+            }else if(status == 1){
                 userTaskStatus = 1;
-                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.create_time desc ";
+                sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status = ? order by user_task.create_time desc ";
             }else if(status == 3){
                 userTaskStatus = 3;
-                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
+                sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
             }else{
-                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
+                sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
             }
-            List<UserTask> userList= jdbcTemplate.query(sql, new Object[]{uid,userTaskStatus},new UserTaskMapper());
+            List<UserTaskJoinInfo> userList= jdbcTemplate.query(sql, new Object[]{uid,userTaskStatus},new UserTaskJoinMapper());
             System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
