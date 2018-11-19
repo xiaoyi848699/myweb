@@ -1,11 +1,14 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserMapper;
 import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.EncryptionUtils;
 import com.example.demo.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import java.util.Random;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private Logger logger =  LoggerFactory.getLogger(MyApplicationListener.class);
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -79,6 +83,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }catch (Exception e){
+            logger.error("addRecommendUser Exception"+e.getMessage());
             return "error";
         }
     }
@@ -133,6 +138,7 @@ public class UserServiceImpl implements UserService {
                 return "邀请码错误";
             }
         }catch (Exception e){
+            logger.error("registerUser Exception"+e.getMessage());
             return "error";
         }
         return "error";
@@ -179,6 +185,7 @@ public class UserServiceImpl implements UserService {
                 return "用户名或密码错误";
             }
         }catch (Exception e){
+            logger.error("login Exception"+e.getMessage());
             return "error";
         }
     }
@@ -191,6 +198,7 @@ public class UserServiceImpl implements UserService {
             System.out.println("count"+userList);
             return userList;
         }catch (Exception e){
+            logger.error("getAllUserList Exception"+e.getMessage());
             return "error";
         }
     }
@@ -203,6 +211,7 @@ public class UserServiceImpl implements UserService {
             System.out.println("count"+userList);
             return userList;
         }catch (Exception e){
+            logger.error("getUserByName Exception"+e.getMessage());
             return "error";
         }
     }

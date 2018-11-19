@@ -62,12 +62,13 @@ public class DbUserController {
 
     //    @ResponseBody
     @RequestMapping("login")
-    public String login(HttpServletRequest request, HttpServletResponse response, String username, String password, Model model) {
+    public String login(HttpServletResponse response, String username, String password, Model model) {
         String result = userService.login(username, password);
+        System.out.println(username+"->result:" + result);
         if ("error".equals(result)) {
             model.addAttribute("message",
                     result);
-            return "404.html";
+            return "404";
         } else {
             String[] str = result.split(":");
             if (str.length == 2) {
@@ -82,18 +83,18 @@ public class DbUserController {
 //                request.getSession().setAttribute("userId",str[1]);
 
                 if ("success".equals(str[0])) {
-                    return "homepage.html";
+                    return "homepage";
                 } else if ("shopkeeper".equals(str[0])) {
-                    return "shopkeeper.html";
+                    return "shopkeeper";
                 } else if ("admin".equals(str[0])) {
-                    return "admin.html";
+                    return "admin";
                 } else if ("supperAdmin".equals(str[0])) {
-                    return "supperAdmin.html";
+                    return "supperAdmin";
                 }
             }
             model.addAttribute("message",
                     result);
-            return "index.html";
+            return "index";
         }
     }
 
