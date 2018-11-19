@@ -24,16 +24,18 @@ public class TaskServiceImpl implements TaskService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Object getMySendTask(String uid) {
+    public Object getMySendTask(String uid,int status) {
         try {
-            String sql="select * from task where create_uid = ?";
-            List<Task> userList= jdbcTemplate.query(sql, new Object[]{uid},new TaskMapper());
+            ////1正常  2 已经关闭  3 删除
+            String sql="select * from task where create_uid = ? and status = ? order by create_time desc";
+            List<Task> userList= jdbcTemplate.query(sql, new Object[]{uid,status},new TaskMapper());
             System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
         }
     }
+
 
     @Override
     public Object getSendTask() {

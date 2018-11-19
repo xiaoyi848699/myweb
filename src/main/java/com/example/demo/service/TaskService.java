@@ -6,7 +6,7 @@ public interface TaskService {
     /**
      * 获取我发布的任务列表
      */
-    Object getMySendTask(String id);
+    Object getMySendTask(String id,int status);
 
     /**
      * 用户获取所有的任务列表

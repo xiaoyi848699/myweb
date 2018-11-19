@@ -4,11 +4,16 @@ import com.example.demo.po.UserTask;
 
 public interface UserTaskService {
     /**
-     * 获取某个人任务下的所以 用户接受任务列表
+     * 获取某个任务下的所有 用户接受任务列表
      * @param taskId
      * @return
      */
     Object getTaskUserTaskList(String taskId);
+
+    /**
+     * 获取某个人发布的所有任务列表中的所有用户接受任务列表（根据状态）
+     */
+    Object getUserSendAllTaskAllUserTaskList(String uid,int status);
 
     /**
      * 获取某个人的 用户接受任务列表

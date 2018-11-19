@@ -114,18 +114,18 @@ public class HelloController {
 		model.addAttribute("list",userList);
 		return "add_task";
 	}
-	@RequestMapping("/deal_task")
-	private String deal_task(Model model){
-		List<User> userList = getUsers();
-		model.addAttribute("list",userList);
-		return "deal_task";
-	}
-	@RequestMapping("/my_recommend_list")
-	private String my_recommend_list(Model model){
-		List<User> userList = getUsers();
-		model.addAttribute("list",userList);
-		return "my_recommend_list";
-	}
+//	@RequestMapping("/deal_task")
+//	private String deal_task(Model model){
+//		List<User> userList = getUsers();
+//		model.addAttribute("list",userList);
+//		return "deal_task";
+//	}
+//	@RequestMapping("/my_recommend_list")
+//	private String my_recommend_list(Model model){
+//		List<User> userList = getUsers();
+//		model.addAttribute("list",userList);
+//		return "my_recommend_list";
+//	}
 	@RequestMapping("/add_recommend")
 	private String add_recommend(Model model){
 		List<User> userList = getUsers();

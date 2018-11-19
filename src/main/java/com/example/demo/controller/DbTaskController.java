@@ -23,13 +23,13 @@ public class DbTaskController {
     private TaskService taskService;
 
     @RequestMapping("getMySendTask")
-    public String getMySendTask(String addUserId, Model model){
+    public String getMySendTask(String addUserId,int status, Model model){
         if(Utils.isEmpty(addUserId)){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
         }
-        Object result = taskService.getMySendTask(addUserId);
+        Object result = taskService.getMySendTask(addUserId,status);
         logger.info("getMySendTask:"+result);
         if(null != result && "error".equals(result.toString())){
             return "404";
@@ -59,14 +59,14 @@ public class DbTaskController {
         }else{
             List<Task> taskList = (List<Task>) result;
             if(null != taskList && taskList.size() > 0){
-                model.addAttribute("message",
+                model.addAttribute("taskList",
                         taskList);
                 logger.info("addTask result:"+result);
-                return "index.html";
+                return "homepage";
             }else{
                 model.addAttribute("message",
                         "暂无任务");
-                return "index.html";
+                return "homepage";
             }
         }
     }

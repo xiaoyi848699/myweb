@@ -26,7 +26,7 @@ public class DbUserTaskController {
         if(null != result && "error".equals(result.toString())){
             return "404.html";
         }else{
-            List<Task> taskList = (List<Task>) result;
+            List<UserTask> taskList = (List<UserTask>) result;
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("message",
                         taskList);
@@ -35,6 +35,29 @@ public class DbUserTaskController {
                 model.addAttribute("message",
                         "暂无人接任务");
                 return "index.html";
+            }
+        }
+    }
+    @RequestMapping("getMyTaskUserTaskList")
+    public String getUserSendAllTaskAllUserTaskList(String uid,int status, Model model){//后台端使用
+        if(Utils.isEmpty(uid)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
+        Object result = userTaskService.getUserSendAllTaskAllUserTaskList(uid,status);
+        if(null != result && "error".equals(result.toString())){
+            return "404.html";
+        }else{
+            List<UserTask> taskList = (List<UserTask>) result;
+            if(null != taskList && taskList.size() > 0){
+                model.addAttribute("taskList",
+                        taskList);
+                return "deal_task";
+            }else{
+                model.addAttribute("message",
+                        "暂无人接任务");
+                return "deal_task";
             }
         }
     }

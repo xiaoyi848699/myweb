@@ -9,7 +9,7 @@ public class UserTask {
     private Timestamp create_time;//任务接受时间
     private String taobao_order_id;//淘宝订单号
     private String screen_pic;//截图
-    private int  status ;//状态 1:已接任务 2 已经提交 3 商家已经处理 4任务异常 6任务已删除
+    private int  status ;//状态 1:已接任务 2 已经提交 3 商家已经处理 4任务异常 5任务已删除
     private Timestamp user_commit_time;//任务完成时间
     private Timestamp business_deal_time;//商家处理时间
 
@@ -98,5 +98,22 @@ public class UserTask {
                 ", user_commit_time=" + user_commit_time +
                 ", business_deal_time=" + business_deal_time +
                 '}';
+    }
+
+    /**
+     * //状态 1:已接任务 2 已经提交 3 商家已经处理 4任务异常 5任务已删除
+     * @return
+     */
+    public String getStatusStr(){
+        switch (status){
+            case 1:
+                return "已接任务";
+            case 2:
+                return "已经提交";
+            case 3:
+                return "商家已经处理";
+            default:
+                return "任务异常";
+        }
     }
 }

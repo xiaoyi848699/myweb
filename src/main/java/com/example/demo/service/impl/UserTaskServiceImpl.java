@@ -1,6 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.map.TaskMapper;
 import com.example.demo.map.UserTaskMapper;
+import com.example.demo.po.Task;
 import com.example.demo.po.UserTask;
 import com.example.demo.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,29 @@ public class UserTaskServiceImpl implements UserTaskService {
         try {
             String sql="select * from user_task where task_id = ?";
             List<UserTask> userList= jdbcTemplate.query(sql, new Object[]{taskId},new UserTaskMapper());
+            System.out.println("count"+userList);
+            return  userList;
+        }catch (Exception e){
+            return "error";
+        }
+    }
+
+    @Override
+    public Object getUserSendAllTaskAllUserTaskList(String uid,int status) {
+        try {
+            //1:已接任务 2 已经提交 3 商家已经处理 4任务异常 6任务已删除
+            String sql;
+            int user_task_status = 2;
+            if(status == 1){
+                user_task_status = 1;
+                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.create_time desc ";
+            }else if(status == 3){
+                user_task_status = 3;
+                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
+            }else{
+                sql="select user_task.* from task INNER JOIN user_task on task.id = user_task.task_id where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
+            }
+            List<UserTask> userList= jdbcTemplate.query(sql, new Object[]{uid,user_task_status},new UserTaskMapper());
             System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){

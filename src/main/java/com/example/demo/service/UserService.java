@@ -35,7 +35,7 @@ public interface UserService {
      * @param addUserId
      * @return
      */
-    Object getAllUserList(String addUserId);
+    Object getMyAllUserList(String addUserId,int status);
 
     /**
      * 获取指定某个用户信息

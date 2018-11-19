@@ -191,10 +191,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getAllUserList(String addUserId) {
+    public Object getMyAllUserList(String addUserId,int status) {
         try {
-            String sql="select * from user where recommend_user_id = ? ";
-            List<User> userList= jdbcTemplate.query(sql, new Object[]{addUserId},new UserMapper());
+            // 1已推荐未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
+            String sql="select * from user where recommend_user_id = ? and status = ? order by recommend_time desc";
+            List<User> userList= jdbcTemplate.query(sql, new Object[]{addUserId,status},new UserMapper());
             System.out.println("count"+userList);
             return userList;
         }catch (Exception e){

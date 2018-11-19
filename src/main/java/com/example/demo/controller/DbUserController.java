@@ -109,6 +109,25 @@ public class DbUserController {
             return "status";
         }
     }
+    @RequestMapping("getMyAllUserList")
+    public String getMyAllUserList(String addUserId,int status, Model model) {
+        Object result = userService.getMyAllUserList(addUserId,status);
+        if ("error".equals(result)) {
+            model.addAttribute("message",
+                    result);
+            return "404.html";
+        } else {
+            List<User> userList = (List<User>) result;
+            if(null == userList || userList.size() == 0){
+                model.addAttribute("message",
+                        "还未添加推荐用户");
+            }else {
+                model.addAttribute("userList",
+                        userList);
+            }
+            return "my_recommend_list";
+        }
+    }
 
     @RequestMapping("registerUser")
     public String registerUser(String username, String recommendation, String password, String phone, String email, Model model) {
