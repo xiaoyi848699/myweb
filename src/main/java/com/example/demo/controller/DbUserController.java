@@ -117,7 +117,7 @@ public class DbUserController {
         if ("error".equals(result)) {
             return "404.html";
         } else {
-            return "status";
+            return getMyAllUserList(addUserId,0,model);
         }
     }
     @RequestMapping("getMyAllUserList")
@@ -136,8 +136,20 @@ public class DbUserController {
         } else {
             List<User> userList = (List<User>) result;
             if(null == userList || userList.size() == 0){
+                String hint;
+                switch (status){
+                    case 0:
+                        hint ="还未添加推荐用户";
+                    break;
+                    case 1:
+                        hint ="还未添加推荐用户";
+                    break;
+                    default:
+                        hint ="暂无数据";
+                    break;
+                }
                 model.addAttribute("message",
-                        "还未添加推荐用户");
+                        hint);
             }else {
                 model.addAttribute("userList",
                         userList);

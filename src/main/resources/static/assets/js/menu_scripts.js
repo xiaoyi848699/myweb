@@ -5,7 +5,7 @@ jQuery(document).ready(function() {
     if(null != userId){
         $("#mysendtask").attr("href","getMySendTask?status=1&addUserId="+userId);
         $("#dealtask").attr("href","getMyTaskUserTaskList?status=0&uid="+userId);
-        $("#recommendlist").attr("href","getMyAllUserList?status=2&addUserId="+userId);
+        $("#recommendlist").attr("href","getMyAllUserList?status=0&addUserId="+userId);
     // }else{
     //     $("#mysendtask").attr("href","getMySendTask");
     }
