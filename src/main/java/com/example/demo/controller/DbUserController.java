@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +121,7 @@ public class DbUserController {
     }
     @RequestMapping("getMyAllUserList")
     public String getMyAllUserList(String addUserId,int status, Model model) {
-        System.out.println("addUserId"+addUserId);
+        System.out.println(status+"getMyAllUserList"+addUserId);
         if(Utils.isEmpty(addUserId)){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
@@ -136,24 +135,14 @@ public class DbUserController {
         } else {
             List<User> userList = (List<User>) result;
             if(null == userList || userList.size() == 0){
-                String hint;
-                switch (status){
-                    case 0:
-                        hint ="还未添加推荐用户";
-                    break;
-                    case 1:
-                        hint ="还未添加推荐用户";
-                    break;
-                    default:
-                        hint ="暂无数据";
-                    break;
-                }
                 model.addAttribute("message",
-                        hint);
+                        "暂无数据");
             }else {
                 model.addAttribute("userList",
                         userList);
             }
+            model.addAttribute("status",
+                    status);
             return "my_recommend_list";
         }
     }
@@ -170,20 +159,22 @@ public class DbUserController {
         }
     }
     @RequestMapping("changeUserStatus")
-    public String changeUserStatus(String id, String status ,Model model) {
+    public String changeUserStatus(String operateId,String id, String status , Model model) {
+
+        //1已推荐未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
         String result = userService.updateUserStatus(id, status);
         model.addAttribute("message",
                 result);
         if ("error".equals(result)) {
             return "404";
         } else {
-            return "my_recommend_list";
+            return getMyAllUserList(operateId,0,model);
         }
     }
 
     @RequestMapping("updateUserReceiptCode")
     public String updateUserReceiptCode(String id, @RequestParam("file") MultipartFile file, Model model) {
-        String path = FileUtils.saveCompressPic(file,250,340);
+        String path = FileUtils.saveCompressPic(file,500,680);
         String result = userService.updateUserReceiptCode(id, path);
         if ("error".equals(result)) {
             return "404.html";

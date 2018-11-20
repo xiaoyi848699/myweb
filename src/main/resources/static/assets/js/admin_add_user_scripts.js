@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
         var hint = document.getElementById("hint_self");
         if(userId == null){
             alert('登录过期，请从新登录！');
-            window.location.href = "hello";
+            window.top.location = "hello";
         }else if(username.length<1){
             hint.innerHTML = "请输入推荐账号";
             hint.style.display = 'block';
@@ -24,13 +24,14 @@ jQuery(document).ready(function() {
     setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
 });
 function filterUser(val) {
-    var userId =getCookie("userId");
-    if(null != userId){
-        document.getElementById("form_filter").action="getMyAllUserList?addUserId="+userId+"&status="+val;
+    var userId = getCookie("userId");
+    if (null != userId) {
+        document.getElementById("form_filter").action = "getMyAllUserList?addUserId=" + userId + "&status=" + val;
         document.getElementById("form_filter").submit();
-    }else{
+    } else {
         alert('登录过期，请从新登录！');
-        window.location.href = "hello";
+        // window.top.location = "hello";
+        window.open("hello","_top");
     }
 }
 function getCookie(name) {
