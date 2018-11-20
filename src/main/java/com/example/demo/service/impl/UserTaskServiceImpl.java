@@ -75,6 +75,20 @@ public class UserTaskServiceImpl implements UserTaskService {
     @Override
     public String addUserTask(UserTask userTask) {
         try {
+            //如果还有未完成的任务。不能这里接任务
+//            select user_task.* from
+//                    (select id from task where create_uid = (SELECT create_uid from task WHERE id = 10037228)and task.status = 1) as alltask  -- 查询出这个商家的所有未关闭订单
+//            INNER JOIN  user_task on alltask.id = user_task.task_id  -- 查询出这个商家的所有未关闭订单中的已接收任务
+//            where  user_task.user_id =61159 and user_task.status BETWEEN 1 and 2;//我已接收订单中还未完成的任务
+            String sql="select count(*) from " +
+                    "(select id from task where create_uid = (SELECT create_uid from task WHERE id = ?)and task.status = 1) as alltask " +
+                    "INNER JOIN  user_task on alltask.id = user_task.task_id " +
+                    "  where  user_task.user_id =? and user_task.status BETWEEN 1 and 2";
+            int size= jdbcTemplate.queryForObject(sql, new Object[]{userTask.getTask_id(),userTask.getUser_id()},Integer.class);
+            if(size > 0){
+                return "您已接收过此雇主的任务，任务在完成前不能再接受他的任务";
+            }
+
             //生成Id，并检查
             int id = 0;
             int maxCheck = 0;

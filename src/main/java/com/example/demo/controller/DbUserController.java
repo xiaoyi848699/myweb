@@ -169,6 +169,17 @@ public class DbUserController {
             return "index.html";
         }
     }
+    @RequestMapping("changeUserStatus")
+    public String changeUserStatus(String id, String status ,Model model) {
+        String result = userService.updateUserStatus(id, status);
+        model.addAttribute("message",
+                result);
+        if ("error".equals(result)) {
+            return "404";
+        } else {
+            return "my_recommend_list";
+        }
+    }
 
     @RequestMapping("updateUserReceiptCode")
     public String updateUserReceiptCode(String id, @RequestParam("file") MultipartFile file, Model model) {

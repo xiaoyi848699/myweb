@@ -177,8 +177,8 @@ public class UserServiceImpl implements UserService {
                         }else{
                             return "error";
                         }
-                    default:
-                        return "账户被禁用";
+                    default: //1已推荐未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
+                        return "账户无法使用";
                 }
             }else{
                 //登录失败通知用户名或密码错误
