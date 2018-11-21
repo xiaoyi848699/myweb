@@ -38,11 +38,6 @@ public class DbTaskController {
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
                         taskList);
-//                Task task = taskList.get(0);
-//                logger.info("getMySendTask:"+task.getCreate_time());
-//                logger.info("getMySendTask:"+task.getCreate_time().toString());
-//                logger.info("getMySendTask:"+task.getCreate_time().getDate());
-//                logger.info("getMySendTask:"+task.getCreate_time().getTime());
                 return "admin_tasklist";
             }else{
                 model.addAttribute("message",
@@ -52,7 +47,12 @@ public class DbTaskController {
         }
     }
     @RequestMapping("getSendTask")
-    public String getSendTask(Model model){
+    public String getSendTask(String requestId,Model model){
+        if(Utils.isEmpty(requestId)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
         Object result = taskService.getSendTask();
         if(null != result && "error".equals(result.toString())){
             return "404.html";
@@ -61,7 +61,7 @@ public class DbTaskController {
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
                         taskList);
-                logger.info("addTask result:"+result);
+//                logger.info("addTask result:"+result);
                 return "homepage";
             }else{
                 model.addAttribute("message",

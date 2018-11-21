@@ -34,6 +34,9 @@ public class DbUserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DbTaskController dbTaskController;
+
     //    execute方法：可以用于执行任何SQL语句，一般用于执行DDL语句；
 //    update方法及batchUpdate方法：update方法用于执行新增、修改、删除等语句；batchUpdate方法用于执行批处理相关语句；
 //    query方法及queryForXXX方法：用于执行查询相关语句；
@@ -88,6 +91,7 @@ public class DbUserController {
 //                request.getSession().setAttribute("userId",str[1]);
 
                 if ("success".equals(str[0])) {
+//                    return dbTaskController.getSendTask(str[1],model);
                     return "homepage";
                 } else if ("shopkeeper".equals(str[0])) {
                     return "shopkeeper";
