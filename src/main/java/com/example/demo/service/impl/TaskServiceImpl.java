@@ -27,6 +27,12 @@ public class TaskServiceImpl implements TaskService {
     public Object getMySendTask(String uid,int status) {
         try {
             ////1正常  2 已经关闭  3 删除
+            if(status == 0){
+                String sql="select * from task where create_uid = ? and status between 1 and 2 order by create_time desc";
+                List<Task> userList= jdbcTemplate.query(sql, new Object[]{uid},new TaskMapper());
+                System.out.println("count"+userList);
+                return  userList;
+            }
             String sql="select * from task where create_uid = ? and status = ? order by create_time desc";
             List<Task> userList= jdbcTemplate.query(sql, new Object[]{uid,status},new TaskMapper());
             System.out.println("count"+userList);

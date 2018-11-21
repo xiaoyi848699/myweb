@@ -129,14 +129,14 @@ public class DbTaskController {
         }
     }
     @RequestMapping("updateTaskStatus")
-    public String updateTaskStatus(String taskId,String status,Model model){
+    public String updateTaskStatus(String operateId,String taskId,String status,Model model){
         String result = taskService.updateTaskStatus(taskId,status);
         if( "error".equals(result)){
             return "404.html";
         }else{
             model.addAttribute("message",
-                    result);
-            return "index.html";
+                    "操作成功");
+            return getMySendTask(operateId,0,model);
         }
     }
 

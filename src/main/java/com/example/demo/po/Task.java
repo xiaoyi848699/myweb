@@ -99,4 +99,15 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
+    public String getStatusStr(){
+        switch (status){
+            case 1:
+                return "进行中";
+            case 2:
+                return "已关闭";
+            case 3:
+                return "已删除";
+        }
+        return  "";
+    }
 }

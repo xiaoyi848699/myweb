@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
     var userId =getCookie("userId");
     // alert("userId:"+userId)
     if(null != userId){
-        $("#mysendtask").attr("href","getMySendTask?status=1&addUserId="+userId);
+        $("#mysendtask").attr("href","getMySendTask?status=0&addUserId="+userId);
         $("#dealtask").attr("href","getMyTaskUserTaskList?status=0&uid="+userId);
         $("#recommendlist").attr("href","getMyAllUserList?status=0&addUserId="+userId);
     // }else{

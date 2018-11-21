@@ -110,20 +110,20 @@ jQuery.ias({
         $('.excerpt a').attr('draggable', 'false')
     }
 });
-$(window).scroll(function () {
-    var sidebar = $('.sidebar');
-    var sidebarHeight = sidebar.height();
-    var windowScrollTop = $(window).scrollTop();
-    if (windowScrollTop > sidebarHeight - 60 && sidebar.length) {
-        $('.fixed').css({
-            'position': 'fixed',
-            'top': '70px',
-            'width': '360px'
-        })
-    } else {
-        $('.fixed').removeAttr("style")
-    }
-});
+// $(window).scroll(function () {
+//     var sidebar = $('.sidebar');
+//     var sidebarHeight = sidebar.height();
+//     var windowScrollTop = $(window).scrollTop();
+//     if (windowScrollTop > sidebarHeight - 60 && sidebar.length) {
+//         $('.fixed').css({
+//             'position': 'fixed',
+//             'top': '70px',
+//             'width': '360px'
+//         })
+//     } else {
+//         $('.fixed').removeAttr("style")
+//     }
+// });
 (function () {
     // var oMenu = document.getElementById("rightClickMenu");
     // var aLi = oMenu.getElementsByTagName("li");
@@ -171,4 +171,14 @@ function SiteSearch(send_url, divTgs) {
         window.location.href = send_url + "?keyword=" + encodeURI(str)
     }
     return false
+}
+function closeTask(_this) {
+    var userId = getCookie("userId");
+    var value = _this.getAttribute("value");
+    if (null != userId) {
+        window.location.href="updateTaskStatus?status=2&taskId="+value+"&operateId="+userId
+    } else {
+        alert('登录过期，请从新登录！');
+        window.open("hello","_top");
+    }
 }
