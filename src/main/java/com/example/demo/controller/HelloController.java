@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.User;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,26 +143,26 @@ public class HelloController {
 		log.println("admin_tasklist");
 		return userList;
 	}
-	/**
-	 * 显示单张图片
-	 * @return
-	 */
-	@RequestMapping("showPhotos")
-	public ResponseEntity showPhotos(String fileName){
-		System.out.println("file....:"  + fileName);
-		if(Utils.isEmpty(fileName)){
-			return ResponseEntity.notFound().build();
-		}
-		try {
-//			String path = System.getProperty("User.dir") + "/webcontent/";
-			File fileT = new File(System.getProperty("User.dir") + "/webcontent/");
-			// 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
-//			System.out.println("file:" + path + fileName);
-//
-			return ResponseEntity.ok(resourceLoader.getResource("file:"  +fileT.getAbsolutePath().replace("\\","/")+"/"+ fileName));
-		} catch (Exception e) {
-			System.out.println("showPhotos Exception:"  + e.getMessage());
-			return ResponseEntity.notFound().build();
-		}
-	}
+//	/**
+//	 * 显示单张图片
+//	 * @return
+//	 */
+//	@RequestMapping("showPhotos")
+//	public ResponseEntity showPhotos(String fileName){
+//		System.out.println("file....:"  + fileName);
+//		if(Utils.isEmpty(fileName)){
+//			return ResponseEntity.notFound().build();
+//		}
+//		try {
+////			String path = System.getProperty("User.dir") + "/webcontent/";
+//			File fileT = new File(FileUtils.saveImgPath);
+//			// 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
+////			System.out.println("file:" + path + fileName);
+////
+//			return ResponseEntity.ok(resourceLoader.getResource("file:"  +fileT.getAbsolutePath().replace("\\","/")+"/"+ fileName));
+//		} catch (Exception e) {
+//			System.out.println("showPhotos Exception:"  + e.getMessage());
+//			return ResponseEntity.notFound().build();
+//		}
+//	}
 }

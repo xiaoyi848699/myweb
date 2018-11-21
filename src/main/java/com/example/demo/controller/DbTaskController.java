@@ -104,7 +104,7 @@ public class DbTaskController {
             return "描述不能为空";
         }
 
-        String path = FileUtils.saveCompressPic(file,400,600);
+        String path = FileUtils.saveCompressPic(String.valueOf(uid),file,400,600);
         Task task = new Task();
         task.setTitle(title);
         task.setTask_describe(task_describe);

@@ -178,7 +178,7 @@ public class DbUserController {
 
     @RequestMapping("updateUserReceiptCode")
     public String updateUserReceiptCode(String id, @RequestParam("file") MultipartFile file, Model model) {
-        String path = FileUtils.saveCompressPic(file,500,680);
+        String path = FileUtils.saveCompressPic(id,file,500,680);
         String result = userService.updateUserReceiptCode(id, path);
         if ("error".equals(result)) {
             return "404.html";

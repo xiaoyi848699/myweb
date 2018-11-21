@@ -161,7 +161,7 @@ public class DbUserTaskController {
         if(Utils.isEmpty(orderId)){
             return "订单Id不能为空";
         }
-        String path = FileUtils.savePic(file);
+        String path = FileUtils.savePic(userTaskId,file);
         String result = userTaskService.updateCompeleteUserTask(userTaskId,path,orderId);
         if("error".equals(result)){
             return "404.html";
