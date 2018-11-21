@@ -2,11 +2,35 @@
 function showBigImg(_this) {
     // alert(_this.getAttribute("src"))
     // alert($(".data td img:nth-child(1)").attr("src"))
-    imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+    var src = _this.getAttribute("src");//获取当前点击的pimg元素中的src属性
+    imgShow("#outerdiv", "#innerdiv", "#bigimg", src);
+}
+function showBigImgValue(_this) {
+    // alert($(".data td img:nth-child(1)").attr("src"))
+    var src = _this.getAttribute("value");//获取当前点击的pimg元素中的src属性
+    var value1 = _this.getAttribute("value1");//获取当前点击的pimg元素中的src属性
+    var value2 = _this.getAttribute("value2");//获取当前点击的pimg元素中的src属性
+    if(null== src){
+        alert('用户没用上传收款码，无法返款！');
+        return
+    }
+    // alert("value1"+value1+"value2"+value2)
+    $('#nickname').html(value2)
+    $('#commit_btn').click(function(){
+        // alert("value1"+value1)
+        var userId =getCookie("userId");
+        if(null == userId){
+            alert('登录过期，请从新登录！');
+            window.top.location = "hello";
+        }else{
+            window.location.href = "updateUserTaskStatus?userTaskId="+value1+"&status=3&operateId="+userId;
+        }
+    });
+    imgShow("#outerdiv", "#innerdiv", "#bigimg", src);
 }
 
-function imgShow(outerdiv, innerdiv, bigimg, _this){
-    var src = _this.getAttribute("src");//获取当前点击的pimg元素中的src属性
+function imgShow(outerdiv, innerdiv, bigimg, src){
+
     // var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
     $(bigimg).attr("src", src);//设置#bigimg元素的src属性
 

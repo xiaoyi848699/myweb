@@ -71,8 +71,8 @@
     }
 </style>
 <body>
-<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
-<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" id="hint_self"></p>
+<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;position:fixed;z-index:999;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
+<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;position:fixed;z-index:999;" id="hint_self"></p>
 <div  style="margin: 20px 20px 20px 20px">
 
     <div class="title" th:if="${not #strings.isEmpty(userList)}">
@@ -125,9 +125,9 @@
             </td>
             <td th:text="${user.getStatusStr()}"></td>
             <td>
-                <a th:href="@{'changeUserStatus?status=5&id='+${user.getId()}+'&operateId='+${user.getRecommend_user_id()}}" th:if="${user.getStatus()}ne 5">删除</a>
-                <a th:href="@{'changeUserStatus?status=4&id='+${user.getId()}+'&operateId='+${user.getRecommend_user_id()}}" th:if="${user.getStatus() eq 2 || user.getStatus()eq 3}">禁用</a>
-                <a th:href="@{'changeUserStatus?status=2&id='+${user.getId()}+'&operateId='+${user.getRecommend_user_id()}}" th:if="${user.getStatus()}eq 4">解禁</a>
+                <a th:value="${user.getId()}" href="JavaScript:void(0)" onclick="operateUser(this,5)" th:if="${user.getStatus()}ne 5">删除</a>
+                <a th:value="${user.getId()}" href="JavaScript:void(0)"  onclick="operateUser(this,4)"  th:if="${user.getStatus() eq 2 || user.getStatus()eq 3}">禁用</a>
+                <a th:value="${user.getId()}" href="JavaScript:void(0)" onclick="operateUser(this,2)"  th:if="${user.getStatus()}eq 4">解禁</a>
                 <a href="">检测</a>
             </td>
         <tr>

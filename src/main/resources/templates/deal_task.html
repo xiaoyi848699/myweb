@@ -28,7 +28,7 @@
 <![endif]-->
 <body>
 <!--/*@thymesVar id="message" type="java"*/-->
-<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
+<p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;position:fixed;z-index:999;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
 <div  style="margin: 20px 20px 20px 20px">
 
     <div class="title" th:if="${not #strings.isEmpty(taskList)}">
@@ -62,7 +62,7 @@
             <td th:text="${userTaskJoinInfo.getScreen_pic()}"></td>
             <td th:text="${userTaskJoinInfo.getUser_commit_time()}"></td>
             <td>
-                <a href="" th:if="${userTaskJoinInfo.getStatus()}eq 2">返款</a>
+                <a href="JavaScript:void(0)" th:if="${userTaskJoinInfo.getStatus()}eq 2"  th:value="'showPhotos?fileName='+${userTaskJoinInfo.getReceipt_code()}"th:value1="${userTaskJoinInfo.getId()}"th:value2="${userTaskJoinInfo.getUsername()}" onclick="showBigImgValue(this)">返款</a>
             </td>
         <tr>
 
@@ -92,6 +92,13 @@
              <li><span>共 2 页</span></li>
          </ul>
      </nav>-->
+    <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
+        <div id="innerdiv" style="position:absolute;">
+            <div style="background: white;text-align: center"><h4 id="nickname" style="color:#ef4300"></h4></div>
+            <img id="bigimg" style="border:5px solid #fff;" src="" />
+            <div style="background: white;text-align: center;height: 40px"><button id="commit_btn" style="cursor: pointer;width: 100px;height: 30px;margin: 0 auto;padding-top: 3px;text-align: center;background: #ef4300;-moz-border-radius: 6px;-webkit-border-radius: 6px;border-radius: 6px;border: 1px solid #ff730e;color: white">完成</button></div>
+        </div>
+    </div>
 </div>
 </body>
 
@@ -99,4 +106,5 @@
 <script src="assets/js/jquery.ias.js"></script>
 <script src="assets/js/main_scripts.js"></script>
 <script src="assets/js/admin_task_scripts.js"></script>
+<script src="assets/js/show_big_img.js"></script>
 </html>

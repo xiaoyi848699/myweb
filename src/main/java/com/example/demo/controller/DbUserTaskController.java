@@ -141,14 +141,19 @@ public class DbUserTaskController {
         }
     }
     @RequestMapping("updateUserTaskStatus")
-    public String updateUserTaskStatus(String userTaskId,String status,Model model){
+    public String updateUserTaskStatus(String operateId,String userTaskId,String status,Model model){//后台使用
+        if(Utils.isEmpty(operateId)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
         String result = userTaskService.updateUserTaskStatus(userTaskId,status);
         if( "error".equals(result)){
             return "404.html";
         }else{
             model.addAttribute("message",
-                    result);
-            return "index.html";
+                    "操作成功");
+            return getMyTaskUserTaskList(operateId,0,model);
         }
     }
     @RequestMapping("updateCompeleteUserTask")

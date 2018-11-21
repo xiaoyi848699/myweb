@@ -34,6 +34,17 @@ function filterUser(val) {
         window.open("hello","_top");
     }
 }
+function operateUser(_this,status) {
+    var userId = getCookie("userId");
+    var value = _this.getAttribute("value");
+    if (null != userId) {
+        window.location.href="changeUserStatus?status="+status+"&id="+value+"&operateId="+userId
+    } else {
+        alert('登录过期，请从新登录！');
+        // window.top.location = "hello";
+        window.open("hello","_top");
+    }
+}
 function getCookie(name) {
     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
     if (arr = document.cookie.match(reg)) {
