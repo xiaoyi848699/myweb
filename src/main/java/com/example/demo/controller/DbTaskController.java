@@ -61,8 +61,9 @@ public class DbTaskController {
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
                         taskList);
-//                logger.info("addTask result:"+result);
+                logger.info("addTask result:"+result);
                 return "homepage";
+//                return "homepage :: taskListFragment";
             }else{
                 model.addAttribute("message",
                         "暂无任务");

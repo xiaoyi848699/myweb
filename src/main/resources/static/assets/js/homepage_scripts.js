@@ -18,6 +18,7 @@ jQuery(document).ready(function() {
     //         // }
     //     }
     // });
+
     var userId =getCookie("userId");
     if(null == userId){
         alert('登录过期，请从新登录！');
@@ -28,5 +29,16 @@ jQuery(document).ready(function() {
     $("#homepage").attr("href","homepage?userId="+userId);
     $("#list").attr("href","list?userId="+userId);
     $("#person").attr("href","person?userId="+userId);
+   
     setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
 });
+function getHomeData() {
+    var userId =getCookie("userId");
+    if(null == userId){
+        alert('登录过期，请从新登录！');
+        window.location.href = "hello";
+        return
+    }else{
+        window.location.href = "getSendTask?requestId="+userId;
+    }
+}
