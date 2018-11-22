@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.po.Task;
+import com.example.demo.po.TaskJoin;
 import com.example.demo.service.TaskService;
 import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.Utils;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -46,6 +48,7 @@ public class DbTaskController {
             }
         }
     }
+//    @ResponseBody
     @RequestMapping("getSendTask")
     public String getSendTask(String requestId,Model model){
         if(Utils.isEmpty(requestId)){
@@ -57,6 +60,8 @@ public class DbTaskController {
         if(null != result && "error".equals(result.toString())){
             return "404.html";
         }else{
+//            model.addAttribute("getDateStatus",
+//                    "success");
             List<Task> taskList = (List<Task>) result;
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
@@ -72,25 +77,53 @@ public class DbTaskController {
         }
     }
     @RequestMapping("getTaskById")
-    public String getTaskById(String taskId,Model model){
-        Object result = taskService.getTaskById(taskId);
+    public String getTaskById(String requestId,String taskId,Model model){
+        if(Utils.isEmpty(requestId)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
+        Object result = taskService.getTaskById(requestId,taskId);
 
         if(null != result && "error".equals(result.toString())){
-            return "404.html";
+            return "show";
         }else{
-            List<Task>  taskList = (List<Task>) result;
-            if(null != taskList && taskList.size() > 0){
-                model.addAttribute("message",
-                        taskList.get(0));
-                return "index.html";
+            List<TaskJoin>  taskInfo = (List<TaskJoin>) result;
+            getNewTask(model);
+            if(null != taskInfo && taskInfo.size() > 0){
+                model.addAttribute("taskInfo",
+                        taskInfo.get(0));
+                return "show";
             }else{
-                model.addAttribute("message",
+                model.addAttribute("taskInfo_error",
                         "任务不存在");
-                return "index.html";
+                return "show";
             }
-
         }
     }
+
+    private void getNewTask(Model model) {
+        Object taskResult = taskService.getSendTaskLimit(5);
+//        System.out.println("getNewTask"+taskResult);
+        addNewTaskToModel(model, taskResult);
+    }
+
+    static void addNewTaskToModel(Model model, Object taskResult) {
+        if(null != taskResult && "error".equals(taskResult.toString())){
+            model.addAttribute("newTaskList_error",
+                    "暂无新任务");
+        }else{
+            List<Task> taskList = (List<Task>) taskResult;
+            if(null != taskList && taskList.size() > 0){
+                model.addAttribute("newTaskList",
+                        taskList);
+            }else{
+                model.addAttribute("newTaskList_error",
+                        "暂无新任务");
+            }
+        }
+    }
+
     @RequestMapping("addTask")
     public String addTask(String title,String task_describe,int uid, @RequestParam("file") MultipartFile file, Model model){
         if(uid <= 0){

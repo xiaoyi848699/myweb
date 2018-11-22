@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 //@RequestMapping("/user")   //请求路径/taobao/getUsers
 @Controller
 public class DbUserController {
@@ -35,7 +37,7 @@ public class DbUserController {
     private UserService userService;
 
     @Autowired
-    private DbTaskController dbTaskController;
+    private HelloController helloController;
 
     //    execute方法：可以用于执行任何SQL语句，一般用于执行DDL语句；
 //    update方法及batchUpdate方法：update方法用于执行新增、修改、删除等语句；batchUpdate方法用于执行批处理相关语句；
@@ -91,8 +93,8 @@ public class DbUserController {
 //                request.getSession().setAttribute("userId",str[1]);
 
                 if ("success".equals(str[0])) {
-//                    return dbTaskController.getSendTask(str[1],model);
-                    return "homepage";
+                    return helloController.getHomepageInfo(str[1],model);
+//                    return "homepage";
                 } else if ("shopkeeper".equals(str[0])) {
                     return "shopkeeper";
                 } else if ("admin".equals(str[0])) {
@@ -199,7 +201,20 @@ public class DbUserController {
             return "person";
         }
     }
-
+    @RequestMapping("/person")
+    private String person(String requestId, Model model){
+//		Object userId = request.getSession().getAttribute("userId");
+        log.println("person"+requestId);
+        if(null == requestId){
+            return "index";
+        }
+        List<User> userList = (List<User>) userService.getUserById(requestId);
+        if(null != userList && userList.size() > 0){
+            model.addAttribute("userInfo",
+                    userList.get(0));
+        }
+        return "person";
+    }
 
 //    @RequestMapping("updateUserReceiptCode2")
 //    public String updateUserReceiptCode2(String id, String fileName,String fileBase64, Model model) {

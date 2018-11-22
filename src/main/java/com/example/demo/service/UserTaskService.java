@@ -14,6 +14,10 @@ public interface UserTaskService {
      * 获取某个人发布的所有任务列表中的所有用户接受任务列表（根据状态）
      */
     Object getUserSendAllTaskAllUserTaskList(String uid,int status);
+    /**
+     * 获取某个人所有接受任务列表
+     */
+    Object getUserAllUserTaskList(String uid);
 
     /**
      * 获取某个人的 用户接受任务列表
@@ -21,6 +25,11 @@ public interface UserTaskService {
      * @return
      */
     Object getMyUserTaskList(String userId);
+    /**
+     * 获取所以用户接受任务列表
+     * @return
+     */
+    int getAllUserTaskList();
 
     /**
      * 新增接受任务

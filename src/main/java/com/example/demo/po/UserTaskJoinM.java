@@ -2,14 +2,16 @@ package com.example.demo.po;
 
 import java.sql.Timestamp;
 
-public class UserTaskJoinInfo {
+import static com.example.demo.po.UserTask.getUserTaskStatus;
+
+public class UserTaskJoinM {
     private int  id;
     private int user_id ;//接任人id
     private int task_id ;//任务id
     private Timestamp create_time;//任务接受时间
     private String taobao_order_id;//淘宝订单号
     private String screen_pic;//截图
-    private int  status ;//状态 1:已接任务 2 已经提交 3 商家已经处理 4任务异常 5任务已删除
+    private int  status ;//状态 1:已接任务 2 已经提交 3 商家已经处理 4任务取消 5任务已删除
     private Timestamp user_commit_time;//任务完成时间
     private Timestamp business_deal_time;//商家处理时间
     private String task_title;
@@ -114,7 +116,7 @@ public class UserTaskJoinInfo {
 
     @Override
     public String toString() {
-        return "UserTaskJoinInfo{" +
+        return "UserTaskJoinM{" +
                 "id=" + id +
                 ", user_id=" + user_id +
                 ", task_id=" + task_id +
@@ -131,19 +133,10 @@ public class UserTaskJoinInfo {
     }
 
     /**
-     * //状态 1:已接任务 2 已经提交 3 商家已经处理 4任务异常 5任务已删除
+     * //状态 1:已接任务 2 已经提交 3 商家已经处理 4任务取消 5任务已删除
      * @return
      */
-    public String getTaskStatusStr(){
-        switch (status){
-            case 1:
-                return "已接任务";
-            case 2:
-                return "已经提交";
-            case 3:
-                return "商家已经处理";
-            default:
-                return "任务异常";
-        }
+    public String getStatusStr(){
+        return getUserTaskStatus(status);
     }
 }

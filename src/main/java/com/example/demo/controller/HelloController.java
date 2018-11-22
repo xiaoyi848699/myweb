@@ -1,11 +1,16 @@
 package com.example.demo.controller;
 
 import com.example.demo.map.UserRowMapper;
+import com.example.demo.po.Task;
 import com.example.demo.po.User;
+import com.example.demo.po.UserTaskJoinM;
+import com.example.demo.po.UserTaskJoinU;
+import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.UserTaskService;
+import com.example.demo.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,45 +30,62 @@ public class HelloController {
 	@Autowired
 	private UserService userService;
 
-//	@Resource
-	private ResourceLoader resourceLoader;
+	@Autowired
+	private TaskService taskService;
 
 	@Autowired
-	public HelloController(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
+	private UserTaskService userTaskService;
 
-	@GetMapping("/hello")
+	@GetMapping("")
 	public String index(){
 //		return "HelloController Hello World!";
-		return "index.html";
+		System.out.println("HelloController Hello World!");
+		return "index";
 	}
 
 
 	@RequestMapping("/homepage_info")
-	private String homepage(String userId, Model model){
-
-
-		return "homepage";
-	}
-	@RequestMapping("/list")
-	private String list(){
-		log.println("lists");
-		return "list";
-	}
-	@RequestMapping("/person")
-	private String person(String userId, Model model){
-//		Object userId = request.getSession().getAttribute("userId");
-		log.println("person"+userId);
-		if(null == userId){
+	public String getHomepageInfo(String requestId, Model model){
+		//获取总的订单量   获取我的任务和订单量  获取商家任务列表
+		if(Utils.isEmpty(requestId)){
+			model.addAttribute("message",
+					"登录过期，请从新登录！");
 			return "index";
 		}
-		List<User> userList = (List<User>) userService.getUserById(userId);
-		if(null != userList && userList.size() > 0){
-			model.addAttribute("userInfo",
-					userList.get(0));
+		Object taskResult = taskService.getSendTask();
+		if(null != taskResult && "error".equals(taskResult.toString())){
+			return "404";
+		}else{
+			List<Task> taskList = (List<Task>) taskResult;
+			if(null != taskList && taskList.size() > 0){
+				model.addAttribute("taskList",
+						taskList);
+			}else{
+				model.addAttribute("taskList_error",
+						"暂无任务");
+			}
 		}
-		return "person";
+		Object userTaskResult = userTaskService.getUserAllUserTaskList(requestId);
+		model.addAttribute("allTaskListCount",
+				userTaskService.getAllUserTaskList());
+		if(null != userTaskResult && "error".equals(userTaskResult.toString())){
+			return "404";
+		}else{
+			List<UserTaskJoinU>  userTaskList = (List<UserTaskJoinU>) userTaskResult;
+			System.out.println("userTaskList"+userTaskList);
+			if(null != userTaskList && userTaskList.size() > 0){
+				model.addAttribute("userTaskList",
+						userTaskList);
+				model.addAttribute("userTaskListCount",
+						userTaskList.size());
+			}else{
+				model.addAttribute("userTaskList_error",
+						"还未接任务");
+				model.addAttribute("userTaskListCount",
+						0);
+			}
+		}
+		return "homepage";
 	}
 
 	@RequestMapping("/show")

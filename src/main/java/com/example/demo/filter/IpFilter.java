@@ -17,12 +17,12 @@ public class IpFilter implements Filter{
      * 默认限制时间（单位：ms）
      */
 //    private static final long LIMITED_TIME_MILLIS = 60 * 60 * 1000;
-    private static final long LIMITED_TIME_MILLIS = 60 * 1000;
+    private static final long LIMITED_TIME_MILLIS = 5*60 * 1000;
 
     /**
      * 用户连续访问最高阀值，超过该值则认定为恶意操作的IP，进行限制
      */
-    private static final int LIMIT_NUMBER = 60;
+    private static final int LIMIT_NUMBER = 360;
 
     /**
      * 用户访问最小安全时间，在该时间内如果访问次数大于阀值，则记录为恶意IP，否则视为正常访问

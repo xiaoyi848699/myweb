@@ -28,12 +28,13 @@
     <script>window.location.href = 'upgrade-browser.html';</script>
     <![endif]-->
 </head>
-<body class="user-select" onload="getHomeData()">
+<body class="user-select"><!-- onload="getHomeData()"-->
 
 <!--/*@thymesVar id="message" type="java"*/-->
 <p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;position:fixed;z-index:99;"
    th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
-<div id="loading_div" style="position:fixed;z-index:99;background:rgba(0,0,0,0.8);width: 100%;height: 100%;display: none">
+<div id="loading_div"
+     style="position:fixed;z-index:99;background:rgba(0,0,0,0.8);width: 100%;height: 100%;display: none">
     <div id="contain">
         <div class='wrap' id='wrap1'>
             <div class='ball' id='ball1'></div>
@@ -55,15 +56,16 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#header-navbar" aria-expanded="false"><span class="sr-only"></span> <span
                         class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-                <h1 class="logo hvr-bounce-in"><a href="show" title="零花钱平台"><img src="assets/images/logo.png"
+                <h1 class="logo hvr-bounce-in"><a href="JavaScript:void(0)"
+                                                  onclick="getMunePage(0)" title="零花钱平台"><img src="assets/images/logo.png"
                                                                                  alt="零花钱平台"></a></h1>
             </div>
             <div class="collapse navbar-collapse" id="header-navbar">
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a data-cont="首页" title="首页" id="homepage" href="#">首页</a></li>
-                    <li><a data-cont="我的任务" title="我的任务" id="mytasklist" href="#">我的任务</a></li>
-                    <li><a data-cont="个人中心" title="个人中心" id="person" href="#">个人中心</a></li>
+                    <li><a data-cont="首页" title="首页" id="homepage" href="JavaScript:void(0)" onclick="getMunePage(0)">首页</a></li>
+                    <li><a data-cont="我的任务" title="我的任务" id="mytasklist" href="JavaScript:void(0)" onclick="getMunePage(1)">我的任务</a></li>
+                    <li><a data-cont="个人中心" title="个人中心" id="person" href="JavaScript:void(0)" onclick="getMunePage(2)">个人中心</a></li>
                 </ul>
             </div>
         </div>
@@ -93,35 +95,38 @@
                                                            role="button" data-slide="next" rel="nofollow"> <span
                     class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span
                     class="sr-only">下一个</span> </a></div>
-           <!-- <article class="excerpt-minic excerpt-minic-index">
-                <h2><span class="red">【推荐】</span><a href="show" title="诚邀零花钱任务，下单立即返现">诚邀零花钱任务，下单立即返现</a>
-                </h2>
-                <p class="note"></p>
-            </article>-->
+            <!-- <article class="excerpt-minic excerpt-minic-index">
+                 <h2><span class="red">【推荐】</span><a href="show" title="诚邀零花钱任务，下单立即返现">诚邀零花钱任务，下单立即返现</a>
+                 </h2>
+                 <p class="note"></p>
+             </article>-->
             <div class="title">
                 <h3>最新发布任务</h3>
             </div>
-            <div th:unless="${not #strings.isEmpty(taskList)}" style="width: 100%;height: 100%;text-align: center">
-                <h3 th:text="${message}" th:if="${not #strings.isEmpty(message)}"></h3>
+            <div th:unless="${not #strings.isEmpty(taskList)}"  th:if="${not #strings.isEmpty(taskList_error)}" style="width: 100%;height: 100%;text-align: center">
+                <h3 th:text="${taskList_error}"></h3>
             </div>
-            <div th:fragment="taskListFragment" th:each="task : ${taskList}" th:if="${not #strings.isEmpty(taskList)}">
+            <div id="taskListFragment" th:fragment="taskListFragment" th:each="task : ${taskList}"
+                 th:if="${not #strings.isEmpty(taskList)}">
                 <article class="excerpt excerpt-1" style="" th:if="${not #strings.isEmpty(task)}">
-                    <a class="focus" href="JavaScript:void(0)"  th:title="${task.getTitle()}"  >
-                        <img class="thumb" onclick="showBigImg(this)" th:src="@{'showPhotos?fileName='+${task.getPictures()}}" th:if="${not #strings.isEmpty(task)}" th:alt="${task.getTitle()}"  style="display: inline;">
+                    <a class="focus" href="JavaScript:void(0)" th:title="${task.getTitle()}" th:value="${task.getId()}" onclick="getTaskPage(this)">
+                        <img class="thumb" th:value="${task.getId()}" onclick="getTaskPage(this)"
+                             th:src="@{'showPhotos?fileName='+${task.getPictures()}}"
+                             th:if="${not #strings.isEmpty(task)}" th:alt="${task.getTitle()}" style="display: inline;">
                     </a>
-                    <header><a class="cat" href="JavaScript:void(0)" title="任务" >任务<i></i></a>
-                        <h2><a href="JavaScript:void(0)" th:title="${task.getTitle()}" th:text="${task.getTitle()}"  />
+                    <header><a class="cat" href="JavaScript:void(0)" title="任务">任务<i></i></a>
+                        <h2><a href="JavaScript:void(0)" th:title="${task.getTitle()}" th:text="${task.getTitle()}" th:value="${task.getId()}" onclick="getTaskPage(this)"/>
                         </h2>
                     </header>
                     <p class="meta">
-                        <time class="time"><i class="glyphicon glyphicon-time"></i> <span  th:text="${#dates.format(task.getCreate_time(), 'yyyy-MM-dd HH:mm:ss')}"></span></time>
+                        <time class="time"><i class="glyphicon glyphicon-time"></i> <span
+                                th:text="${#dates.format(task.getCreate_time(), 'yyyy-MM-dd HH:mm:ss')}"></span></time>
                         <span class="views">任务状态:<i style="color:#ef4300 " th:text="${task.getStatusStr()}"></i> </span>
                         <!-- <span class="views"><i class="glyphicon glyphicon-eye-open"></i> 216</span>-->
                     </p>
                     <p class="note" th:text="${task.getTask_describe()}"/>
                 </article>
             </div>
-
 
 
             <!-- <nav class="pagination" style="display: none;">
@@ -146,8 +151,8 @@
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane contact active" id="notice">
-                        <h2>总接单数:888</h2>
-                        <h2>我的接单数:88</h2>
+                        <h2>总接单数:<span th:text="${allTaskListCount}"></span></h2>
+                        <h2>我的接单数:<span th:text="${userTaskListCount}"></span></h2>
                     </div>
                     <div role="tabpanel" class="tab-pane contact" id="contact">
                         <h2>QQ:
@@ -173,21 +178,23 @@
         </div>
         <div class="widget widget_hot">
             <h3>我的任务</h3>
-            <ul>
-                <li><a title="诚邀零花钱任务，下单立即返现" href="show"><span class="thumbnail">
-				<img class="thumb" data-original="assets/images/renwu.png" src="assets/images/renwu.png"
-                     alt="诚邀零花钱任务，下单立即返现" style="display: block;">
-			</span><span class="text">诚邀零花钱任务，下单立即返现</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-
-
-
+            <div th:unless="${not #strings.isEmpty(userTaskList)}"
+                 style="width: 100%;height: 100%;text-align: center">
+                <h3 th:text="${userTaskList_error}" th:if="${not #strings.isEmpty(userTaskList_error)}"></h3>
+            </div>
+            <ul th:each="userTask : ${userTaskList}" th:if="${not #strings.isEmpty(userTaskList)}">
+                  <li><a href="JavaScript:void(0)" th:title="${userTask.getTask_title()}" th:value="${userTask.getTask_id()}" onclick="getTaskPage(this)"><span class="thumbnail">
+                  <img class="thumb" th:src="@{'showPhotos?fileName='+${userTask.getTask_pic()}}"
+                       th:if="${not #strings.isEmpty(userTask)}" th:alt="${userTask.getTask_title()}" th:value="${userTask.getTask_id()}" onclick="getTaskPage(this)" style="display: block;">
+              </span><span class="text" th:text="${userTask.getTask_title()}" ></span>
+                      <span class="muted">接任务时间:<span  style="color: #ff730e" th:text="${#dates.format(userTask.getCreate_time(), 'MM-dd HH:mm:ss')}"></span></span><br/>
+                      <span class="muted">状态:<span class="muted" style="color: #ff730e" th:text="${userTask.getStatusStr()}"></span></span>
+                  </a></li>
             </ul>
         </div>
         <div class="widget widget_sentence">
             <a href="#" target="_blank" rel="nofollow" title="旺铺推荐">
-                <img style="width: 100%" src="assets/images//tuijian2.png" alt="旺铺推荐"></a>
+                <img style="width: 100%" src="assets/images/tuijian2.png" alt="旺铺推荐"></a>
         </div>
         <div class="widget widget_sentence">
             <a href="#" target="_blank" rel="nofollow" title="零花钱任务">

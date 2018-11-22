@@ -25,9 +25,9 @@ jQuery(document).ready(function() {
         return
     }
     // alert(userId)
-    $("#homepage").attr("href","homepage?userId="+userId);
-    $("#list").attr("href","list?userId="+userId);
-    $("#person").attr("href","person?userId="+userId);
+    // $("#homepage").attr("href","homepage?userId="+userId);
+    // $("#list").attr("href","list?userId="+userId);
+    // $("#person").attr("href","person?userId="+userId);
     setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
 });
 function checkFileType(target){

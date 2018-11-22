@@ -100,6 +100,9 @@ public class Task {
                 '}';
     }
     public String getStatusStr(){
+       return getTaskStatus(status);
+    }
+    public  static String getTaskStatus(int status){
         switch (status){
             case 1:
                 return "进行中";

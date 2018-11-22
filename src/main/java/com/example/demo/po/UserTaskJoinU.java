@@ -1,10 +1,10 @@
 package com.example.demo.po;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.sql.Timestamp;
 
-public class UserTask {
+import static com.example.demo.po.UserTask.getUserTaskStatus;
+
+public class UserTaskJoinU {
     private int  id;
     private int user_id ;//接任人id
     private int task_id ;//任务id
@@ -14,6 +14,26 @@ public class UserTask {
     private int  status ;//状态 1:已接任务 2 已经提交 3 商家已经处理 4任务取消 5任务已删除
     private Timestamp user_commit_time;//任务完成时间
     private Timestamp business_deal_time;//商家处理时间
+    private String task_title;
+    private String username;
+    private String userPhone;
+    private String task_pic;
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getTask_pic() {
+        return task_pic;
+    }
+
+    public void setTask_pic(String task_pic) {
+        this.task_pic = task_pic;
+    }
 
     public int getId() {
         return id;
@@ -87,9 +107,25 @@ public class UserTask {
         this.business_deal_time = business_deal_time;
     }
 
+    public String getTask_title() {
+        return task_title;
+    }
+
+    public void setTask_title(String task_title) {
+        this.task_title = task_title;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
-        return "UserTask{" +
+        return "UserTaskJoinU{" +
                 "id=" + id +
                 ", user_id=" + user_id +
                 ", task_id=" + task_id +
@@ -99,22 +135,20 @@ public class UserTask {
                 ", status=" + status +
                 ", user_commit_time=" + user_commit_time +
                 ", business_deal_time=" + business_deal_time +
+                ", task_title='" + task_title + '\'' +
+                ", username='" + username + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", task_pic='" + task_pic + '\'' +
                 '}';
     }
 
-    @NotNull
-    static String getUserTaskStatus(int status) {
-        switch (status){
-            case 1:
-                return "已接任务";
-            case 2:
-                return "已经提交";
-            case 3:
-                return "商家已经处理";
-            case 4:
-                return "任务取消";
-            default:
-                return "任务异常";
-        }
+    /**
+     * //状态 1:已接任务 2 已经提交 3 商家已经处理 4任务取消 5任务已删除
+     * @return
+     */
+    public String getStatusStr(){
+        return getUserTaskStatus(status);
     }
+
+
 }

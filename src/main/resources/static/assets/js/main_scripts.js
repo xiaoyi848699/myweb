@@ -182,3 +182,34 @@ function closeTask(_this) {
         window.open("hello","_top");
     }
 }
+function getMunePage(val) {
+    var userId =getCookie("userId");
+    if(null == userId){
+        alert('登录过期，请从新登录！');
+        window.location.href = "hello";
+        return
+    }else{
+       switch (val) {
+           case 0:
+               window.location.href ="homepage_info?requestId="+userId;
+               break
+           case 1:
+               window.location.href ="my_list?requestId="+userId;
+               break
+           case 2:
+               window.location.href ="person?requestId="+userId;
+               break
+       }
+    }
+}
+function getTaskPage(_this) {
+    var userId =getCookie("userId");
+    var taskId = _this.getAttribute("value");
+    if(null == userId){
+        alert('登录过期，请从新登录！');
+        window.location.href = "hello";
+        return
+    }else{
+       window.location.href ="getTaskById?requestId="+userId+"&taskId="+taskId;
+    }
+}

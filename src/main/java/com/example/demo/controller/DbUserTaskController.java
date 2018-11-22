@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.filter.MyApplicationListener;
+import com.example.demo.po.Task;
 import com.example.demo.po.UserTask;
-import com.example.demo.po.UserTaskJoinInfo;
+import com.example.demo.po.UserTaskJoinM;
+import com.example.demo.po.UserTaskJoinU;
+import com.example.demo.service.TaskService;
 import com.example.demo.service.UserTaskService;
 import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.Utils;
@@ -17,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 @Controller
 public class DbUserTaskController {
 
@@ -24,6 +29,8 @@ public class DbUserTaskController {
 
     @Autowired
     private UserTaskService userTaskService;
+    @Autowired
+    private TaskService taskService;
 
     @RequestMapping("getTaskUserTaskList")
     public String getTaskUserTaskList(String taskId, Model model){
@@ -56,7 +63,7 @@ public class DbUserTaskController {
         if(null != result && "error".equals(result.toString())){
             return "404.html";
         }else{
-            List<UserTaskJoinInfo> taskList = (List<UserTaskJoinInfo>) result;
+            List<UserTaskJoinM> taskList = (List<UserTaskJoinM>) result;
             logger.debug("taskList:"+taskList);
             if(null != taskList && taskList.size() > 0){
                 model.addAttribute("taskList",
@@ -101,6 +108,32 @@ public class DbUserTaskController {
 
         }
     }
+    @RequestMapping("my_list")
+    private String getMyList(String requestId,Model model){
+        Object userTaskResult = userTaskService.getUserAllUserTaskList(requestId);
+        if(null != userTaskResult && "error".equals(userTaskResult.toString())){
+            return "404";
+        }else{
+            List<UserTaskJoinU>  userTaskList = (List<UserTaskJoinU>) userTaskResult;
+            getNewTask(model);
+//            System.out.println("userTaskList"+userTaskList);
+            if(null != userTaskList && userTaskList.size() > 0){
+                model.addAttribute("userTaskList",
+                        userTaskList);
+            }else{
+                model.addAttribute("userTaskList_error",
+                        "还未接任务");
+            }
+            return "list";
+        }
+    }
+
+    private void getNewTask(Model model) {
+        Object newTaskResult = taskService.getSendTaskLimit(5);
+//        System.out.println("getNewTask"+taskResult);
+        DbTaskController.addNewTaskToModel(model, newTaskResult);
+    }
+
     @RequestMapping("getUserTask")
     public String getUserTask(String userTaskId,Model model){
         Object result = userTaskService.getUserTask(userTaskId);

@@ -13,13 +13,19 @@ public interface TaskService {
      * @return
      */
     Object getSendTask();
+    /**
+     * 用户获取所有的任务列表
+     * @return
+     */
+    Object getSendTaskLimit(int max);
 
     /**
      * 获取某个任务详情
+     * @param requestId 请求人Id
      * @param id
      * @return
      */
-    Object getTaskById(String id);
+    Object getTaskById(String requestId,String id);
 
     /**
      * 新增任务

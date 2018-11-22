@@ -1,8 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.filter.MyApplicationListener;
+import com.example.demo.map.TaskJoinMapper;
 import com.example.demo.map.TaskMapper;
 import com.example.demo.po.Task;
+import com.example.demo.po.TaskJoin;
 import com.example.demo.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +48,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Object getSendTask() {
         try {
-            String sql="select * from task where status = 1 ";
+            String sql="select * from task where status = 1 order by create_time desc";
             List<Task> userList= jdbcTemplate.query(sql,new TaskMapper());
             System.out.println("count"+userList);
             return  userList;
@@ -56,10 +58,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Object getTaskById(String taskId) {
+    public Object getSendTaskLimit(int max) {
         try {
-            String sql="select * from task where id = ?";
-            List<Task> userList= jdbcTemplate.query(sql, new Object[]{taskId},new TaskMapper());
+            String sql="select * from task where status = 1 order by create_time desc limit ?";
+            List<Task> userList= jdbcTemplate.query(sql,new Object[]{max},new TaskMapper());
+//            System.out.println("count"+userList);
+            return  userList;
+        }catch (Exception e){
+            return "error";
+        }
+    }
+
+    @Override
+    public Object getTaskById(String requestId,String taskId) {
+        try {
+            String sql="select t.*,ut.id as utaskid,ut.create_time as u_create_time,ut.taobao_order_id,ut.screen_pic,ut.status as utask_status,ut.user_commit_time,ut.business_deal_time" +
+                    " from (select * from task where id = ?) as t LEFT JOIN (select * from user_task where user_id = ?) as ut on t.id=ut.task_id ";
+            List<TaskJoin> userList= jdbcTemplate.query(sql, new Object[]{taskId,requestId},new TaskJoinMapper());
             System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){

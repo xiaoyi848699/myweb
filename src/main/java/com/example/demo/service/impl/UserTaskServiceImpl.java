@@ -1,9 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.map.UserTaskJoinMapper;
+import com.example.demo.map.UserTaskJoinMMapper;
+import com.example.demo.map.UserTaskJoinUMapper;
 import com.example.demo.map.UserTaskMapper;
 import com.example.demo.po.UserTask;
-import com.example.demo.po.UserTaskJoinInfo;
+import com.example.demo.po.UserTaskJoinM;
+import com.example.demo.po.UserTaskJoinU;
 import com.example.demo.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,7 +42,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             int userTaskStatus = 2;
             if(status == 0){//查询1、2
                 sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status BETWEEN 1 and 3  order by user_task.create_time desc ";
-                List<UserTaskJoinInfo> userList= jdbcTemplate.query(sql, new Object[]{uid},new UserTaskJoinMapper());
+                List<UserTaskJoinM> userList= jdbcTemplate.query(sql, new Object[]{uid},new UserTaskJoinMMapper());
                 System.out.println("count"+userList);
                 return  userList;
             }else if(status == 1){
@@ -52,7 +54,23 @@ public class UserTaskServiceImpl implements UserTaskService {
             }else{
                 sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
             }
-            List<UserTaskJoinInfo> userList= jdbcTemplate.query(sql, new Object[]{uid,userTaskStatus},new UserTaskJoinMapper());
+            List<UserTaskJoinM> userList= jdbcTemplate.query(sql, new Object[]{uid,userTaskStatus},new UserTaskJoinMMapper());
+            System.out.println("count"+userList);
+            return  userList;
+        }catch (Exception e){
+            return "error";
+        }
+    }
+
+    @Override
+    public Object getUserAllUserTaskList(String uid) {
+        try {
+            //1:已接任务 2 已经提交 3 商家已经处理 4任务取消 6任务已删除
+            String sql="select  user_task.*,task.title,task.pictures,user.username,user.phone from task " +
+                    "INNER JOIN user_task on task.id = user_task.task_id  " +
+                    "INNER JOIN user on user.id = task.create_uid  " +
+                    "where user_task.user_id = ? and user_task.status BETWEEN 1 and 3  order by user_task.create_time desc";
+            List<UserTaskJoinU> userList= jdbcTemplate.query(sql, new Object[]{uid},new UserTaskJoinUMapper());
             System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
@@ -69,6 +87,18 @@ public class UserTaskServiceImpl implements UserTaskService {
             return  userList;
         }catch (Exception e){
             return "error";
+        }
+    }
+
+    @Override
+    public int getAllUserTaskList() {
+        try {
+            String sql="select count(*) from user_task";
+           int count= jdbcTemplate.queryForObject(sql, Integer.class);
+            System.out.println("count"+count);
+            return  count;
+        }catch (Exception e){
+            return 999;
         }
     }
 
@@ -140,8 +170,23 @@ public class UserTaskServiceImpl implements UserTaskService {
     @Override
     public String updateUserTaskStatus(String userTaskId, String status) {
         try {
-            String sql4="update user_task set status = ? where id = ?";
-            int count= jdbcTemplate.update(sql4, new Object[]{status,userTaskId});
+            int count = 0;
+            if("3".equals(status)){
+                String sql="update user_task set status = ?,business_deal_time = ? where id = ?";
+                Date date = new Date();
+                Timestamp timeStamp = new Timestamp(date.getTime());
+                count= jdbcTemplate.update(sql, new Object[]{status,timeStamp,userTaskId});
+
+            }else if("2".equals(status)){
+                String sql="update user_task set status = ?,user_commit_time = ? where id = ?";
+                Date date = new Date();
+                Timestamp timeStamp = new Timestamp(date.getTime());
+                count= jdbcTemplate.update(sql, new Object[]{status,timeStamp,userTaskId});
+
+            }else{
+                String sql="update user_task set status = ? where id = ?";
+                count= jdbcTemplate.update(sql, new Object[]{status,userTaskId});
+            }
             System.out.println("update"+count);
             if(count == 1){
                 return "success";

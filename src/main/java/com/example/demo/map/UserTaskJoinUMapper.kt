@@ -1,15 +1,16 @@
 package com.example.demo.map
 
-import com.example.demo.po.UserTaskJoinInfo
+import com.example.demo.po.UserTaskJoinM
+import com.example.demo.po.UserTaskJoinU
 import org.springframework.jdbc.core.RowMapper
 import java.sql.ResultSet
 import java.sql.SQLException
 
 
-class UserTaskJoinMapper : RowMapper<UserTaskJoinInfo> {
+class UserTaskJoinUMapper : RowMapper<UserTaskJoinU> {
     @Throws(SQLException::class)
-    override fun mapRow(rs: ResultSet, rowNum: Int): UserTaskJoinInfo {
-        val user = UserTaskJoinInfo()
+    override fun mapRow(rs: ResultSet, rowNum: Int): UserTaskJoinU {
+        val user = UserTaskJoinU()
         user.id = rs.getInt("id")
         user.screen_pic = rs.getString("screen_pic")
         user.taobao_order_id = rs.getString("taobao_order_id")
@@ -21,7 +22,8 @@ class UserTaskJoinMapper : RowMapper<UserTaskJoinInfo> {
         user.status = rs.getInt("status")
         user.task_title = rs.getString("title")
         user.username = rs.getString("username")
-        user.receipt_code = rs.getString("receipt_code")
+        user.task_pic = rs.getString("pictures")
+        user.userPhone = rs.getString("phone")
         return user
     }
 }
