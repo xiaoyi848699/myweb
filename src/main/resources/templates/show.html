@@ -45,9 +45,9 @@
             <div class="collapse navbar-collapse" id="header-navbar">
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a data-cont="首页" title="首页" href="homepage">首页</a></li>
-                    <li><a data-cont="我的任务" title="我的任务" href="list">我的任务</a></li>
-                    <li><a data-cont="个人中心" title="个人中心" href="person">个人中心</a></li>
+                    <li><a data-cont="首页" title="首页" id="homepage" href="JavaScript:void(0)" onclick="getMunePage(0)">首页</a></li>
+                    <li><a data-cont="我的任务" title="我的任务" id="mytasklist" href="JavaScript:void(0)" onclick="getMunePage(1)">我的任务</a></li>
+                    <li><a data-cont="个人中心" title="个人中心" id="person" href="JavaScript:void(0)" onclick="getMunePage(2)">个人中心</a></li>
                 </ul>
             </div>
         </div>
@@ -84,8 +84,36 @@
 
             </article>
             <div class="center-block">
-                <button type="submit" name="comment-submit" id="comment-submit" tabindex="4">我要接单</button>
+                <button type="submit" name="comment-submit" th:value="${taskInfo.getTask_id()}" id="comment-submit" tabindex="4" onclick="acceptTask(this)">我要接任务</button>
             </div>
+
+            <div style="margin: 20px 20px 20px 20px;padding:20px;border-radius: 6px;border: 1px solid #fd0202;">
+
+                <form action="" id="form1" method="post"  enctype="multipart/form-data" />
+                <div class="title">
+                    <h3>我已接此任务，请及时完成任务并提交资料！</h3>
+                </div>
+                <div class="form1" id="formdiv">
+                    <span>
+                         <span style="margin-top: 20px">订单编号:</span> <br/>
+                        <input type="text" id="title" name="title"
+                               style="width: 150px;height: 30px;padding: 3px" />
+                    </span>
+                    <br/>
+                    <br/>
+                    <span>
+                        <span style="margin-top: 20px">添加截图(最大2M):</span> <br/>
+                        <input type="file" name="file" id="file" onchange="onFileChange(this)" style="height: 40px;padding: 3px">
+                    </span>
+
+                    <h5 class="commit_task" id="commit_task" th:value="${taskInfo.getUsertask_id()}" onclick="compeleteTask(this)">提交</h5>
+
+                </div>
+                </form>
+
+            </div>
+
+            <p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" >已接此单</p>
         </div>
     </div>
     <aside class="sidebar">
@@ -135,13 +163,13 @@
         </div>
         <div class="widget widget_sentence">
 
-            <a href="#" target="_blank" rel="nofollow" title="MZ-零花钱任务">
+            <a href="https://shop319766512.taobao.com/index.htm" target="_blank" rel="nofollow" title="MZ-零花钱任务">
                 <img style="width: 100%" src="assets/images/tuijian1.png" alt="MZ-零花钱任务"></a>
 
         </div>
         <div class="widget widget_sentence">
 
-            <a href="#" target="_blank" rel="nofollow" title="旺铺推荐">
+            <a href="https://shop319766512.taobao.com/index.htm" target="_blank" rel="nofollow" title="旺铺推荐">
                 <img style="width: 100%" src="assets/images/tuijian2.png" alt="旺铺推荐"></a>
 
         </div>
@@ -150,6 +178,50 @@
 <footer class="footer">
     <div id="gotop"><a class="gotop"></a></div>
 </footer>
+
+<style type="text/css">
+    .form1 {
+        width: 60%;
+    }
+    .form1 dl {
+        margin: 5px 0;
+    }
+
+    .form1 dt {
+        text-align: right;
+        width: 150px;
+    }
+    .commit_task {
+        cursor: pointer;
+        width: 100px;
+        height: 24px;
+        margin: 0 auto;
+        padding-top: 3px;
+        text-align: center;
+        background: #ef4300;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #ff730e;
+        -moz-box-shadow:
+                0 15px 30px 0 rgba(255,255,255,.25) inset,
+                0 2px 7px 0 rgba(0,0,0,.2);
+        -webkit-box-shadow:
+                0 15px 30px 0 rgba(255,255,255,.25) inset,
+                0 2px 7px 0 rgba(0,0,0,.2);
+        box-shadow:
+                0 15px 30px 0 rgba(255,255,255,.25) inset,
+                0 2px 7px 0 rgba(0,0,0,.2);
+        font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0,0,0,.1);
+        -o-transition: all .2s;
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        -ms-transition: all .2s;
+    }
+</style>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/jquery.ias.js"></script>
 <script src="assets/js/main_scripts.js"></script>

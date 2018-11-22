@@ -16,12 +16,21 @@ public class TaskJoin {
     private int  browsing_volume;//浏览记录
     private int status;//1正常  2 已经关闭  3 删除
 
+    private int usertask_id;
     private Timestamp usertask_create_time;//任务接受时间
     private String taobao_order_id;//淘宝订单号
     private String screen_pic;//截图
     private int  usertask_status ;//状态 1:已接任务 2 已经提交 3 商家已经处理 4任务取消 5任务已删除
     private Timestamp user_commit_time;//任务完成时间
     private Timestamp business_deal_time;//商家处理时间
+
+    public int getUsertask_id() {
+        return usertask_id;
+    }
+
+    public void setUsertask_id(int usertask_id) {
+        this.usertask_id = usertask_id;
+    }
 
     public String getTask_describe() {
         return task_describe;
@@ -155,6 +164,7 @@ public class TaskJoin {
                 ", end_time=" + end_time +
                 ", browsing_volume=" + browsing_volume +
                 ", status=" + status +
+                ", usertask_id=" + usertask_id +
                 ", usertask_create_time=" + usertask_create_time +
                 ", taobao_order_id='" + taobao_order_id + '\'' +
                 ", screen_pic='" + screen_pic + '\'' +

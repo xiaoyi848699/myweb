@@ -1,11 +1,9 @@
 package com.example.demo.map
 
-import com.example.demo.po.Task
 import com.example.demo.po.TaskJoin
 import org.springframework.jdbc.core.RowMapper
 import java.sql.ResultSet
 import java.sql.SQLException
-import java.sql.Timestamp
 
 
 class TaskJoinMapper : RowMapper<TaskJoin> {
@@ -21,6 +19,7 @@ class TaskJoinMapper : RowMapper<TaskJoin> {
         tsak.create_time = rs.getTimestamp("create_time")
         tsak.end_time = rs.getTimestamp("end_time")
         tsak.status = rs.getInt("status")
+        tsak.usertask_id = rs.getInt("utaskid")
         tsak.usertask_create_time = rs.getTimestamp("u_create_time")
         tsak.taobao_order_id = rs.getString("taobao_order_id")
         tsak.screen_pic = rs.getString("screen_pic")

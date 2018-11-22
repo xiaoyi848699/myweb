@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
         var hint = document.getElementById("hint_self");
         if(userId == null){
             alert('登录过期，请从新登录！');
-            window.top.location = "hello";
+            window.top.location = "";
         }else if(title.length<1){
             hint.innerHTML = "请输入标题";
             hint.style.display = 'block';

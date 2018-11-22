@@ -21,7 +21,7 @@ jQuery(document).ready(function() {
     var userId =getCookie("userId");
     if(null == userId){
         alert('登录过期，请从新登录！');
-        window.location.href = "hello";
+        window.location.href = "";
         return
     }
     // alert(userId)
@@ -64,7 +64,7 @@ function checkFileType(target){
         }else{
             alert('登录过期，请从新登录！');
             //在原有窗口打开
-            window.location.href = "hello";
+            window.location.href = "";
             //打开新的窗口
             // window.open("http://www.baidu.com");
         }

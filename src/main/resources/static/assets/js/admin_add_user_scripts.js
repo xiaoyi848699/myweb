@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
         var hint = document.getElementById("hint_self");
         if(userId == null){
             alert('登录过期，请从新登录！');
-            window.top.location = "hello";
+            window.top.location = "";
         }else if(username.length<1){
             hint.innerHTML = "请输入推荐账号";
             hint.style.display = 'block';
@@ -31,7 +31,7 @@ function filterUser(val) {
     } else {
         alert('登录过期，请从新登录！');
         // window.top.location = "hello";
-        window.open("hello","_top");
+        window.open("","_top");
     }
 }
 function operateUser(_this,status) {
@@ -42,7 +42,7 @@ function operateUser(_this,status) {
     } else {
         alert('登录过期，请从新登录！');
         // window.top.location = "hello";
-        window.open("hello","_top");
+        window.open("","_top");
     }
 }
 function getCookie(name) {

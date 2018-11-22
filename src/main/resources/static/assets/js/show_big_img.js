@@ -21,7 +21,7 @@ function showBigImgValue(_this) {
         var userId =getCookie("userId");
         if(null == userId){
             alert('登录过期，请从新登录！');
-            window.top.location = "hello";
+            window.top.location = "";
         }else{
             window.location.href = "updateUserTaskStatus?userTaskId="+value1+"&status=3&operateId="+userId;
         }

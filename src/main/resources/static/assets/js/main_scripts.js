@@ -179,14 +179,14 @@ function closeTask(_this) {
         window.location.href="updateTaskStatus?status=2&taskId="+value+"&operateId="+userId
     } else {
         alert('登录过期，请从新登录！');
-        window.open("hello","_top");
+        window.open("","_top");
     }
 }
 function getMunePage(val) {
     var userId =getCookie("userId");
     if(null == userId){
         alert('登录过期，请从新登录！');
-        window.location.href = "hello";
+        window.location.href = "";
         return
     }else{
        switch (val) {
@@ -207,9 +207,48 @@ function getTaskPage(_this) {
     var taskId = _this.getAttribute("value");
     if(null == userId){
         alert('登录过期，请从新登录！');
-        window.location.href = "hello";
+        window.location.href = "";
         return
     }else{
        window.location.href ="getTaskById?requestId="+userId+"&taskId="+taskId;
+    }
+}
+function acceptTask(_this) {
+    var userId =getCookie("userId");
+    var id = _this.getAttribute("value");
+    if(null == userId){
+        alert('登录过期，请从新登录！');
+        window.location.href = "";
+        return
+    }else{
+       window.location.href ="getTaskById?requestId="+userId+"&taskId="+id;
+    }
+}
+function compeleteTask(_this) {
+    var userId =getCookie("userId");
+    var id = _this.getAttribute("value");
+    if(null == userId){
+        alert('登录过期，请从新登录！');
+        window.location.href = "";
+        return
+    }else{
+       window.location.href ="getTaskById?requestId="+userId+"&taskId="+id;
+    }
+}
+function onFileChange(target) {
+    var fileSize = target.files[0].size;
+    // }
+    var size = fileSize / 1024;
+    if(size>2000){
+        alert("上传图片不能大于2M");
+        target.value="";
+        return
+    }
+    var name=target.value;
+    var resultName = name.substring(name.lastIndexOf(".")).toLowerCase();
+
+    if ('.jpg'!=resultName.toString().toLowerCase()&&'.png'!=resultName.toString().toLowerCase()&&'.jpeg'!=resultName.toString().toLowerCase()){
+        alert('只能上传png、jpg、jpeg格式文件，您上传的文件类型为'+resultName+'，请重新上传');
+        target.value="";
     }
 }

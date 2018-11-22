@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.Task;
 import com.example.demo.po.User;
-import com.example.demo.po.UserTaskJoinM;
 import com.example.demo.po.UserTaskJoinU;
 import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
@@ -38,6 +37,12 @@ public class HelloController {
 
 	@GetMapping("")
 	public String index(){
+//		return "HelloController Hello World!";
+		System.out.println("HelloController Hello World!");
+		return "index";
+	}
+	@GetMapping("hello")
+	public String hello(){
 //		return "HelloController Hello World!";
 		System.out.println("HelloController Hello World!");
 		return "index";
