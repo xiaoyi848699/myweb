@@ -221,18 +221,20 @@ function acceptTask(_this) {
         window.location.href = "";
         return
     }else{
-       window.location.href ="getTaskById?requestId="+userId+"&taskId="+id;
+       window.location.href ="addUserTask?user_id="+userId+"&task_id="+id;
     }
 }
 function compeleteTask(_this) {
     var userId =getCookie("userId");
-    var id = _this.getAttribute("value");
+    var id = _this.getAttribute("value1");
+    var taskId = _this.getAttribute("value2");
     if(null == userId){
         alert('登录过期，请从新登录！');
         window.location.href = "";
         return
     }else{
-       window.location.href ="getTaskById?requestId="+userId+"&taskId="+id;
+        document.getElementById("form_compelete").action = "updateCompeleteUserTask?user_id=" + userId + "&userTaskId=" + id+"&taskId="+taskId;
+        document.getElementById("form_compelete").submit();
     }
 }
 function onFileChange(target) {

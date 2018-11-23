@@ -116,6 +116,7 @@ public class UserTaskServiceImpl implements UserTaskService {
                     "  where  user_task.user_id =? and user_task.status BETWEEN 1 and 2";
             int size= jdbcTemplate.queryForObject(sql, new Object[]{userTask.getTask_id(),userTask.getUser_id()},Integer.class);
             if(size > 0){
+                System.out.println("不能再接受他的任务getTask_id"+userTask.getTask_id()+",getUser_id"+userTask.getUser_id());
                 return "您已接收过此雇主的任务，任务在完成前不能再接受他的任务";
             }
 
@@ -146,7 +147,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             System.out.println("insert"+count4);
             //返回推荐码
             if(count4 == 1){
-                return  "success";
+                return  "接受成功，请尽快完成任务，并提交数据";
             }else{
                 return "接受失败";
             }
@@ -177,11 +178,11 @@ public class UserTaskServiceImpl implements UserTaskService {
                 Timestamp timeStamp = new Timestamp(date.getTime());
                 count= jdbcTemplate.update(sql, new Object[]{status,timeStamp,userTaskId});
 
-            }else if("2".equals(status)){
-                String sql="update user_task set status = ?,user_commit_time = ? where id = ?";
-                Date date = new Date();
-                Timestamp timeStamp = new Timestamp(date.getTime());
-                count= jdbcTemplate.update(sql, new Object[]{status,timeStamp,userTaskId});
+//            }else if("2".equals(status)){
+//                String sql="update user_task set status = ?,user_commit_time = ? where id = ?";
+//                Date date = new Date();
+//                Timestamp timeStamp = new Timestamp(date.getTime());
+//                count= jdbcTemplate.update(sql, new Object[]{status,timeStamp,userTaskId});
 
             }else{
                 String sql="update user_task set status = ? where id = ?";
@@ -200,11 +201,13 @@ public class UserTaskServiceImpl implements UserTaskService {
     @Override
     public String updateCompeleteUserTask(String userTaskId, String picPath, String orderId) {
         try {
-            String sql4="update user_task set status = ?,taobao_order_id = ?,screen_pic = ? where id = ?";
-            int count= jdbcTemplate.update(sql4, new Object[]{2,orderId,picPath,userTaskId});
+            String sql4="update user_task set status = ?,taobao_order_id = ?,screen_pic = ?,user_commit_time = ? where id = ?";
+            Date date = new Date();
+            Timestamp timeStamp = new Timestamp(date.getTime());
+            int count= jdbcTemplate.update(sql4, new Object[]{2,orderId,picPath,timeStamp,userTaskId});
             System.out.println("update"+count);
             if(count == 1){
-                return "success";
+                return "提交成功，等待审核";
             }
         }catch (Exception e){
             return "error";

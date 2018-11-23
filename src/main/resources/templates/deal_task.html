@@ -59,10 +59,13 @@
             <td th:text="${userTaskJoinInfo.getCreate_time()}"></td>
             <td th:text="${userTaskJoinInfo.getStatusStr()}"></td>
             <td th:text="${userTaskJoinInfo.getTaobao_order_id()}"></td>
-            <td th:text="${userTaskJoinInfo.getScreen_pic()}"></td>
+            <td >
+                <img height="22px" width="30px" onclick="showBigImgValue(this,0)" th:src="@{'showPhotos?fileName='+${userTaskJoinInfo.getScreen_pic()}}"th:if="${not #strings.isEmpty(userTaskJoinInfo.getScreen_pic())}" />
+                <p th:unless="${not #strings.isEmpty(userTaskJoinInfo.getScreen_pic())}">未上传</p>
+            </td>
             <td th:text="${userTaskJoinInfo.getUser_commit_time()}"></td>
             <td>
-                <a href="JavaScript:void(0)" th:if="${userTaskJoinInfo.getStatus()}eq 2"  th:value="'showPhotos?fileName='+${userTaskJoinInfo.getReceipt_code()}"th:value1="${userTaskJoinInfo.getId()}"th:value2="${userTaskJoinInfo.getUsername()}" onclick="showBigImgValue(this)">返款</a>
+                <a href="JavaScript:void(0)" th:if="${userTaskJoinInfo.getStatus()}eq 2"  th:value="'showPhotos?fileName='+${userTaskJoinInfo.getReceipt_code()}"th:value1="${userTaskJoinInfo.getId()}"th:value2="${userTaskJoinInfo.getUsername()}" onclick="showBigImgValue(this,1)">返款</a>
             </td>
         <tr>
 
@@ -94,9 +97,9 @@
      </nav>-->
     <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
         <div id="innerdiv" style="position:absolute;">
-            <div style="background: white;text-align: center"><h4 id="nickname" style="color:#ef4300"></h4></div>
+            <div style="background: white;text-align: center;margin: 0 auto" id="nickname_div"><h4 id="nickname" style="color:#ef4300"></h4></div>
             <img id="bigimg" style="border:5px solid #fff;" src="" />
-            <div style="background: white;text-align: center;height: 40px"><button id="commit_btn" style="cursor: pointer;width: 100px;height: 30px;margin: 0 auto;padding-top: 3px;text-align: center;background: #ef4300;-moz-border-radius: 6px;-webkit-border-radius: 6px;border-radius: 6px;border: 1px solid #ff730e;color: white">完成</button></div>
+            <div style="background: white;text-align: center;height: 40px;margin: 0 auto" id="commit_btn_div"><button id="commit_btn" style="cursor: pointer;width: 100px;height: 30px;margin: 0 auto;padding-top: 3px;text-align: center;background: #ef4300;-moz-border-radius: 6px;-webkit-border-radius: 6px;border-radius: 6px;border: 1px solid #ff730e;color: white">返款完成</button></div>
         </div>
     </div>
 </div>

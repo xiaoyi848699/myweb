@@ -31,6 +31,8 @@ public class DbUserTaskController {
     private UserTaskService userTaskService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private DbTaskController dbTaskController;
 
     @RequestMapping("getTaskUserTaskList")
     public String getTaskUserTaskList(String taskId, Model model){
@@ -154,23 +156,29 @@ public class DbUserTaskController {
         }
     }
     @RequestMapping("addUserTask")
-    public String addUserTask(int user_id,int task_id, Model model){
-        if(0 == user_id){
-            return "未登陆";
+    public String addUserTask(String user_id,String task_id, Model model){
+        if(Utils.isEmpty(user_id)){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
         }
-        if(0 == task_id){
+        if(Utils.isEmpty(task_id)){
             return "任务错误";
         }
         UserTask task = new UserTask();
-        task.setUser_id(user_id);
-        task.setTask_id(task_id);
+        try {
+            task.setUser_id(Integer.parseInt(user_id));
+            task.setTask_id(Integer.parseInt(task_id));
+        } catch (NumberFormatException e) {
+            return "任务错误";
+        }
         String result = userTaskService.addUserTask(task);
         if("error".equals(result)){
             return "404.html";
         }else{
             model.addAttribute("message",
                     result);
-            return "index.html";
+            return dbTaskController.getTaskById(user_id,task_id,model);
         }
     }
     @RequestMapping("updateUserTaskStatus")
@@ -190,7 +198,7 @@ public class DbUserTaskController {
         }
     }
     @RequestMapping("updateCompeleteUserTask")
-    public String updateCompeleteUserTask(String userTaskId, String orderId,@RequestParam("file") MultipartFile file, Model model){
+    public String updateCompeleteUserTask(String user_id,String userTaskId,String taskId, String orderId,@RequestParam("file") MultipartFile file, Model model){
         if(Utils.isEmpty(orderId)){
             return "订单Id不能为空";
         }
@@ -201,7 +209,7 @@ public class DbUserTaskController {
         }else{
             model.addAttribute("message",
                     result);
-            return "index.html";
+            return dbTaskController.getTaskById(user_id,taskId,model);
         }
     }
 
