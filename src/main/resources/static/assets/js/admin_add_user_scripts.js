@@ -2,7 +2,7 @@
 jQuery(document).ready(function() {
 
     $('.commit_task').click(function(){
-        var userId =getCookie("userId");
+        var userId =getCookie("adUserId");
         var username=$('#username').val();
         var hint = document.getElementById("hint_self");
         if(userId == null){
@@ -17,14 +17,14 @@ jQuery(document).ready(function() {
             document.getElementById("form_add").submit();
         }
     });
-    var userId =getCookie("userId");
+    var userId =getCookie("adUserId");
     if(null != userId){
         $("#filter").attr("action","getMyAllUserList?addUserId="+userId);
     }
     setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
 });
 function filterUser(val) {
-    var userId = getCookie("userId");
+    var userId = getCookie("adUserId");
     if (null != userId) {
         document.getElementById("form_filter").action = "getMyAllUserList?addUserId=" + userId + "&status=" + val;
         document.getElementById("form_filter").submit();
@@ -35,7 +35,7 @@ function filterUser(val) {
     }
 }
 function operateUser(_this,status) {
-    var userId = getCookie("userId");
+    var userId = getCookie("adUserId");
     var value = _this.getAttribute("value");
     if (null != userId) {
         window.location.href="changeUserStatus?status="+status+"&id="+value+"&operateId="+userId

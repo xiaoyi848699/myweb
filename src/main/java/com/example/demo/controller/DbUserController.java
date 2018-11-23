@@ -82,31 +82,35 @@ public class DbUserController {
         } else {
             String[] str = result.split(":");
             if (str.length == 2) {
-                Cookie cookie = new Cookie("userId", str[1]);
-                cookie.setPath("/");
-                cookie.setMaxAge(80000);//过期时间
-                response.addCookie(cookie);
-                Cookie cookie2 = new Cookie("username", username);
-                cookie2.setPath("/");
-                cookie2.setMaxAge(80000);//过期时间80000s
-                response.addCookie(cookie2);
+                setCookie(response, "username", username);
 //                request.getSession().setAttribute("userId",str[1]);
 
                 if ("success".equals(str[0])) {
+                    setCookie(response, "userId", str[1]);
                     return helloController.getHomepageInfo(str[1],model);
 //                    return "homepage";
                 } else if ("shopkeeper".equals(str[0])) {
+                    setCookie(response, "adUserId", str[1]);
                     return "shopkeeper";
                 } else if ("admin".equals(str[0])) {
-                    return "admin";
+                    setCookie(response, "adUserId", str[1]);
+                    return "shopkeeper";
                 } else if ("supperAdmin".equals(str[0])) {
-                    return "supperAdmin";
+                    setCookie(response, "adUserId", str[1]);
+                    return "shopkeeper";
                 }
             }
             model.addAttribute("message",
                     result);
             return "index";
         }
+    }
+
+    private void setCookie(HttpServletResponse response, String adUserId, String s) {
+        Cookie cookie = new Cookie(adUserId, s);
+        cookie.setPath("/");
+        cookie.setMaxAge(80000);//过期时间
+        response.addCookie(cookie);
     }
 
     @RequestMapping("addUser")

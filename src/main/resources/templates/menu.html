@@ -60,7 +60,8 @@
                     <TD align=middle width=30><IMG height=9
                                                    src="assets/images/menu_icon.gif" width=9>
                     </TD>
-                    <TD><A class="menuChild" href="#" id="mysendtask" target="main">任务列表</A>
+                    <TD><A class="menuChild"href="JavaScript:void(0)"
+                           onclick="getMunePage(0)" id="mysendtask" target="main">任务列表</A>
                     </TD>
                 </TR>
 
@@ -75,7 +76,8 @@
                     <TD align=middle width=30><IMG height=9
                                                    src="assets/images/menu_icon.gif" width=9>
                     </TD>
-                    <TD><A class="menuChild" href="#" id="dealtask" target="main">处理任务</A>
+                    <TD><A class="menuChild"href="JavaScript:void(0)"
+                           onclick="getMunePage(1)" id="dealtask" target="main">处理任务</A>
                     </TD>
                 </TR>
                 <TR height=4>
@@ -101,7 +103,8 @@
                     <TD align=middle width=30><IMG height=9
                                                    src="assets/images/menu_icon.gif" width=9>
                     </TD>
-                    <TD><A class="menuChild" href="#" id="recommendlist" target="main">用户列表</A>
+                    <TD><A class="menuChild" href="JavaScript:void(0)"
+                           onclick="getMunePage(2)" id="recommendlist" target="main">用户列表</A>
                     </TD>
                 </TR>
                 <TR height=4>
@@ -148,8 +151,8 @@
                                                    src="assets/images/menu_icon.gif" width=9>
                     </TD>
                     <TD><A class="menuChild"
-                           onclick="if (confirm('确定要退出吗？')) return true; else return false;"
-                           href="hello" target="_top">退出系统</A>
+                           onclick="if (confirm('确定要退出吗？')) getMunePage(99); else return false;"
+                           href="JavaScript:void(0)">退出系统</A>
                     </TD>
                 </TR>
             </TABLE>

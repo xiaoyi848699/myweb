@@ -2,7 +2,7 @@
 jQuery(document).ready(function() {
 
     $('.commit_task').click(function(){
-        var userId =getCookie("userId");
+        var userId =getCookie("adUserId");
         var title=$('#title').val();
         var task_describe=$('#task_describe').val();
         var file=$('#file').val();

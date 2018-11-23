@@ -172,16 +172,7 @@ function SiteSearch(send_url, divTgs) {
     }
     return false
 }
-function closeTask(_this) {
-    var userId = getCookie("userId");
-    var value = _this.getAttribute("value");
-    if (null != userId) {
-        window.location.href="updateTaskStatus?status=2&taskId="+value+"&operateId="+userId
-    } else {
-        alert('登录过期，请从新登录！');
-        window.open("","_top");
-    }
-}
+
 function getMunePage(val) {
     var userId =getCookie("userId");
     if(null == userId){

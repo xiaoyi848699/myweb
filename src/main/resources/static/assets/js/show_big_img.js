@@ -26,7 +26,7 @@ function showBigImgValue(_this,val) {
         $('#nickname').html(value2)
         $('#commit_btn').click(function(){
             // alert("value1"+value1)
-            var userId =getCookie("userId");
+            var userId =getCookie("adUserId");
             if(null == userId){
                 alert('登录过期，请从新登录！');
                 window.top.location = "";

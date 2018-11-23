@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
     //         // }
     //     }
     // });
-    var userId =getCookie("userId");
+    // var userId =getCookie("adUserId");
     // if(null == userId){
     //     alert('登录过期，请从新登录！');
     //     window.location.href = "hello";
@@ -27,3 +27,13 @@ jQuery(document).ready(function() {
     // alert(userId)
     setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
 });
+function closeTask(_this) {
+    var userId = getCookie("adUserId");
+    var value = _this.getAttribute("value");
+    if (null != userId) {
+        window.location.href="updateTaskStatus?status=2&taskId="+value+"&operateId="+userId
+    } else {
+        alert('登录过期，请从新登录！');
+        window.open("","_top");
+    }
+}
