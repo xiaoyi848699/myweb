@@ -7,6 +7,7 @@ import com.example.demo.po.ResponseStatus;
 import com.example.demo.po.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.FileUtils;
+import com.example.demo.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,14 +175,12 @@ public class DbUserController {
     }
     @ResponseBody
     @RequestMapping("myAllUserList")
-    public ResponseData getMyAllUserListResponseBody(HttpServletRequest request,String addUserId,int status, Model model) {
+    public ResponseData getMyAllUserListResponseBody(String addUserId,int status,String from,String token) {
         System.out.println(status+"getMyAllUserList"+addUserId);
-        Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
-        if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
+        if(Utils.isEmpty(addUserId)){
             ResponseData responseData = new ResponseData();
-            responseData.setStatus(ResponseStatus.request_login_expired);
-            responseData.setMessage("登录过期，请从新登录！");
+            responseData.setStatus(ResponseStatus.request_param_error);
+            responseData.setMessage("用户名不能为空");
             return responseData;
         }
         Object result = userService.getMyAllUserList(addUserId,status);
@@ -192,8 +191,6 @@ public class DbUserController {
             return responseData;
         } else {
             List<User> userList = (List<User>) result;
-            model.addAttribute("status",
-                    status);
             ResponseData responseData = new ResponseData();
             responseData.setStatus(ResponseStatus.request_succes);
             responseData.setMessage("获取成功");
