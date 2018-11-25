@@ -25,8 +25,15 @@ public class DbTaskController {
     private TaskService taskService;
 
     @RequestMapping("getMySendTask")
-    public String getMySendTask(String addUserId,int status, Model model){
-        if(Utils.isEmpty(addUserId)){
+    public String getMySendTask(HttpServletRequest request,String addUserId,int status, Model model){
+//        if(Utils.isEmpty(addUserId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -51,7 +58,14 @@ public class DbTaskController {
 //    @ResponseBody
     @RequestMapping("getSendTask")
     public String getSendTask(HttpServletRequest request,String requestId, Model model){
-        if(Utils.isEmpty(requestId)){
+//        if(Utils.isEmpty(requestId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == requestId || null == sessionUid || !requestId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -78,8 +92,15 @@ public class DbTaskController {
         }
     }
     @RequestMapping("getTaskById")
-    public String getTaskById(String requestId,String taskId,Model model){
-        if(Utils.isEmpty(requestId)){
+    public String getTaskById(HttpServletRequest request,String requestId,String taskId,Model model){
+//        if(Utils.isEmpty(requestId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == requestId || null == sessionUid || !requestId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -126,8 +147,15 @@ public class DbTaskController {
     }
 
     @RequestMapping("addTask")
-    public String addTask(String title,String task_describe,int uid, @RequestParam("file") MultipartFile file, Model model){
-        if(uid <= 0){
+    public String addTask(HttpServletRequest request,String title,String task_describe,int uid, @RequestParam("file") MultipartFile file, Model model){
+//        if(uid <= 0){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == String.valueOf(uid) || null == sessionUid || !String.valueOf(uid).equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -164,14 +192,14 @@ public class DbTaskController {
         }
     }
     @RequestMapping("updateTaskStatus")
-    public String updateTaskStatus(String operateId,String taskId,String status,Model model){
+    public String updateTaskStatus(HttpServletRequest request,String operateId,String taskId,String status,Model model){
         String result = taskService.updateTaskStatus(taskId,status);
         if( "error".equals(result)){
             return "404.html";
         }else{
             model.addAttribute("message",
                     "操作成功");
-            return getMySendTask(operateId,0,model);
+            return getMySendTask(request,operateId,0,model);
         }
     }
 

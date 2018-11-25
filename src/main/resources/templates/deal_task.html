@@ -65,10 +65,10 @@
             </td>
             <td th:text="${userTaskJoinInfo.getUser_commit_time()}"></td>
             <td>
-                <a href="JavaScript:void(0)" th:if="${userTaskJoinInfo.getStatus() eq 1 or userTaskJoinInfo.getStatus() eq 2}"  th:value="'showPhotos?fileName='+${userTaskJoinInfo.getReceipt_code()}"th:value1="${userTaskJoinInfo.getId()}"th:value2="${userTaskJoinInfo.getUsername()}" onclick="showBigImgValue(this,1)">返款</a>
+                <a href="JavaScript:void(0)" th:if="${userTaskJoinInfo.getStatus() eq 1 or userTaskJoinInfo.getStatus() eq 2}"  th:value="'showPhotos?fileName='+${userTaskJoinInfo.getReceipt_code()}"th:value1="${userTaskJoinInfo.getId()}"th:value2="${userTaskJoinInfo.getUsername()}" onclick="showBigImgValue(this,1)">微信返款</a>
+                <a href="JavaScript:void(0)" th:if="${userTaskJoinInfo.getStatus() eq 1 or userTaskJoinInfo.getStatus() eq 2}"  th:value="'showPhotos?fileName='+${userTaskJoinInfo.getReceipt_code()}"th:value1="${userTaskJoinInfo.getId()}"th:value2="${userTaskJoinInfo.getUsername()}" onclick="updateTaskStatus(this)">已返款</a>
             </td>
         <tr>
-
 
     </table>
 

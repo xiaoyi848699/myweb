@@ -7,7 +7,6 @@ import com.example.demo.po.UserTaskJoinU;
 import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserTaskService;
-import com.example.demo.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -53,7 +52,9 @@ public class HelloController {
 	@RequestMapping("/homepage_info")
 	public String getHomepageInfo(HttpServletRequest request, String requestId, Model model){
 		//获取总的订单量   获取我的任务和订单量  获取商家任务列表
-		if(Utils.isEmpty(requestId)){
+		Object sessionUid = request.getSession().getAttribute("userId");
+		System.out.println("HttpServletRequest--->userId"+sessionUid);
+		if(null == requestId || null == sessionUid || !requestId.equals(sessionUid.toString())){
 			model.addAttribute("message",
 					"登录过期，请从新登录！");
 			return "index";

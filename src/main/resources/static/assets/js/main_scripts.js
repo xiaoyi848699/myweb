@@ -227,11 +227,11 @@ function acceptTask(_this) {
         return
     }else{
        // window.location.href ="addUserTask?user_id="+userId+"&task_id="+id;
-        document.write("<form action='addUserTask' method='post' name='post_form' style='display:none'>");
+        document.write("<form action='addUserTask' method='post' name='accept_form' style='display:none'>");
         document.write("<input type='hidden' name='user_id' value="+userId+">");
-        document.write("<input type='hidden' name='taskId' value="+id+">");
+        document.write("<input type='hidden' name='task_id' value="+id+">");
         document.write("</form>");
-        document.post_form.submit();
+        document.accept_form.submit();
     }
 }
 function compeleteTask(_this) {

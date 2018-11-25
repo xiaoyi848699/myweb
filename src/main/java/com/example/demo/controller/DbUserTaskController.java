@@ -51,10 +51,17 @@ public class DbUserTaskController {
         }
     }
     @RequestMapping("getMyTaskUserTaskList")//后台端使用
-    public String getMyTaskUserTaskList(String uid,int status, Model model){
+    public String getMyTaskUserTaskList(HttpServletRequest request,String uid,int status, Model model){
         System.out.println("getUserSendAllTaskAllUserTaskList:"+uid+status);
         logger.debug("getUserSendAllTaskAllUserTaskList:"+uid);
-        if(Utils.isEmpty(uid)){
+//        if(Utils.isEmpty(uid)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == uid || null == sessionUid || !uid.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -110,8 +117,13 @@ public class DbUserTaskController {
     }
     @RequestMapping("my_list")
     private String getMyList(HttpServletRequest request, String requestId, Model model){
-
-        System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == requestId || null == sessionUid || !requestId.equals(sessionUid.toString())){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
         Object userTaskResult = userTaskService.getUserAllUserTaskList(requestId);
         if(null != userTaskResult && "error".equals(userTaskResult.toString())){
             return "404";
@@ -156,21 +168,34 @@ public class DbUserTaskController {
         }
     }
     @RequestMapping("addUserTask")
-    public String addUserTask(String user_id,String task_id, Model model){
-        if(Utils.isEmpty(user_id)){
+    public String addUserTask(HttpServletRequest request,String user_id,String task_id, Model model){
+//        if(Utils.isEmpty(user_id)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == user_id || null == sessionUid || !user_id.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
         }
         if(Utils.isEmpty(task_id)){
-            return "任务错误";
+            model.addAttribute("message",
+                    "接受任务失败，请重试");
+            System.out.println("addUserTask error--->task_id"+task_id);
+            return dbTaskController.getTaskById(request,user_id,task_id,model);
         }
         UserTask task = new UserTask();
         try {
             task.setUser_id(Integer.parseInt(user_id));
             task.setTask_id(Integer.parseInt(task_id));
         } catch (NumberFormatException e) {
-            return "任务错误";
+            System.out.println("addUserTask NumberFormatException--->task_id"+task_id);
+            model.addAttribute("message",
+                    "接受任务失败，请重试");
+            return dbTaskController.getTaskById(request,user_id,task_id,model);
         }
         String result = userTaskService.addUserTask(task);
         if("error".equals(result)){
@@ -178,12 +203,19 @@ public class DbUserTaskController {
         }else{
             model.addAttribute("message",
                     result);
-            return dbTaskController.getTaskById(user_id,task_id,model);
+            return dbTaskController.getTaskById(request,user_id,task_id,model);
         }
     }
     @RequestMapping("updateUserTaskStatus")
-    public String updateUserTaskStatus(String operateId,String userTaskId,String status,Model model){//后台使用
-        if(Utils.isEmpty(operateId)){
+    public String updateUserTaskStatus(HttpServletRequest request,String operateId,String userTaskId,String status,Model model){//后台使用
+//        if(Utils.isEmpty(operateId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == operateId || null == sessionUid || !operateId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -194,22 +226,29 @@ public class DbUserTaskController {
         }else{
             model.addAttribute("message",
                     "操作成功");
-            return getMyTaskUserTaskList(operateId,0,model);
+            return getMyTaskUserTaskList(request,operateId,0,model);
         }
     }
     @RequestMapping("updateCompeleteUserTask")
-    public String updateCompeleteUserTask(String user_id,String userTaskId,String taskId, String orderId,@RequestParam("file") MultipartFile file, Model model){
+    public String updateCompeleteUserTask(HttpServletRequest request,String user_id,String userTaskId,String taskId, String orderId,@RequestParam("file") MultipartFile file, Model model){
         if(Utils.isEmpty(orderId)){
             return "订单Id不能为空";
         }
-        String path = FileUtils.savePic(userTaskId,file);
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == user_id || null == sessionUid || !user_id.equals(sessionUid.toString())){
+            model.addAttribute("message",
+                    "登录过期，请从新登录！");
+            return "index";
+        }
+        String path = FileUtils.savePic(user_id+"_"+userTaskId,file);
         String result = userTaskService.updateCompeleteUserTask(userTaskId,path,orderId);
         if("error".equals(result)){
             return "404.html";
         }else{
             model.addAttribute("message",
                     result);
-            return dbTaskController.getTaskById(user_id,taskId,model);
+            return dbTaskController.getTaskById(request,user_id,taskId,model);
         }
     }
 

@@ -31,11 +31,33 @@ function showBigImgValue(_this,val) {
                 alert('登录过期，请从新登录！');
                 window.top.location = "";
             }else{
-                window.location.href = "updateUserTaskStatus?userTaskId="+value1+"&status=3&operateId="+userId;
+                // window.location.href = "updateUserTaskStatus?userTaskId="+value1+"&status=3&operateId="+userId;
+                document.write("<form action='updateUserTaskStatus' method='post' name='post_form' style='display:none'>");
+                document.write("<input type='hidden' name='userTaskId' value="+value1+">");
+                document.write("<input type='hidden' name='status' value="+3+">");
+                document.write("<input type='hidden' name='operateId' value="+userId+">");
+                document.write("</form>");
+                document.post_form.submit();
             }
         });
     }
     imgShow("#outerdiv", "#innerdiv", "#bigimg", src);
+}
+function updateTaskStatus(_this) {
+    var value1 = _this.getAttribute("value1");//获取当前点击的pimg元素中的src属性
+    var userId =getCookie("adUserId");
+    if(null == userId){
+        alert('登录过期，请从新登录！');
+        window.top.location = "";
+    }else{
+        // window.location.href = "updateUserTaskStatus?userTaskId="+value1+"&status=3&operateId="+userId;
+        document.write("<form action='updateUserTaskStatus' method='post' name='post_form' style='display:none'>");
+        document.write("<input type='hidden' name='userTaskId' value="+value1+">");
+        document.write("<input type='hidden' name='status' value="+3+">");
+        document.write("<input type='hidden' name='operateId' value="+userId+">");
+        document.write("</form>");
+        document.post_form.submit();
+    }
 }
 
 function imgShow(outerdiv, innerdiv, bigimg, src){
