@@ -25,5 +25,8 @@ jQuery(document).ready(function() {
         return
     }
     // alert(userId)
-    setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
+    setTimeout(function(){ var hint = document.getElementById("hint");
+        if(null != hint){
+            hint.style.display="none";
+        }},3000);
 });

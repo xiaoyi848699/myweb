@@ -21,7 +21,10 @@ jQuery(document).ready(function() {
     if(null != userId){
         $("#filter").attr("action","getMyAllUserList?addUserId="+userId);
     }
-    setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
+    setTimeout(function(){ var hint = document.getElementById("hint");
+        if(null != hint){
+            hint.style.display="none";
+        }},3000);
 });
 function filterUser(val) {
     var userId = getCookie("adUserId");

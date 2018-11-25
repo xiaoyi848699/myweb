@@ -13,9 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -50,12 +50,13 @@ public class DbTaskController {
     }
 //    @ResponseBody
     @RequestMapping("getSendTask")
-    public String getSendTask(String requestId,Model model){
+    public String getSendTask(HttpServletRequest request,String requestId, Model model){
         if(Utils.isEmpty(requestId)){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
         }
+        System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
         Object result = taskService.getSendTask();
         if(null != result && "error".equals(result.toString())){
             return "404.html";

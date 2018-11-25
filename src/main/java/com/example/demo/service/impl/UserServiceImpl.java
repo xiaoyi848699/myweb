@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
                         String sql4="update user set password = ?, phone = ?,  email = ?, register_time = ?, status = ? where username = ? and recommend_code = ?";
                         Date date = new Date();
                         Timestamp timeStamp = new Timestamp(date.getTime());
-                        int count= jdbcTemplate.update(sql4, new Object[]{EncryptionUtils.getMD5Str(password),phone,email,timeStamp,2,username,recommendCode});
+                        int count= jdbcTemplate.update(sql4, new Object[]{EncryptionUtils.getEncryption(password),phone,email,timeStamp,2,username,recommendCode});
                         System.out.println("update"+count);
                         if(count == 1){
                             return "注册成功";
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("username:"+username+password);
         try {
             String sql="select * from user where username = ? and password =?";
-            List<User> userList= jdbcTemplate.query(sql, new Object[]{username,EncryptionUtils.getMD5Str(password)},new UserRowMapper());
+            List<User> userList= jdbcTemplate.query(sql, new Object[]{username,EncryptionUtils.getEncryption(password)},new UserRowMapper());
             System.out.println("count"+userList);
             if(null != userList && userList.size()>0){
                 User user = userList.get(0);

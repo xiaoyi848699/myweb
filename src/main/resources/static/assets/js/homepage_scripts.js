@@ -30,5 +30,8 @@ jQuery(document).ready(function() {
     // $("#list").attr("href","list?userId="+userId);
     // $("#person").attr("href","person?userId="+userId);
    
-    setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
+    setTimeout(function(){ var hint = document.getElementById("hint");
+        if(null != hint){
+            hint.style.display="none";
+        }},3000);
 });

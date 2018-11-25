@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.filter.MyApplicationListener;
-import com.example.demo.po.Task;
 import com.example.demo.po.UserTask;
 import com.example.demo.po.UserTaskJoinM;
 import com.example.demo.po.UserTaskJoinU;
@@ -18,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @Controller
 public class DbUserTaskController {
@@ -111,7 +109,9 @@ public class DbUserTaskController {
         }
     }
     @RequestMapping("my_list")
-    private String getMyList(String requestId,Model model){
+    private String getMyList(HttpServletRequest request, String requestId, Model model){
+
+        System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
         Object userTaskResult = userTaskService.getUserAllUserTaskList(requestId);
         if(null != userTaskResult && "error".equals(userTaskResult.toString())){
             return "404";

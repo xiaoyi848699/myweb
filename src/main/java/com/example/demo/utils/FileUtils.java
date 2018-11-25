@@ -1,6 +1,5 @@
 package com.example.demo.utils;
 
-import com.example.demo.DemoApplication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -50,8 +49,9 @@ public class FileUtils {
         return filename;
     }
     public static String getPicSavePath(){
-        File fileT = new File(DemoApplication.saveImgPath);
+//        File fileT = new File(DemoApplication.saveImgPath);
 //        File fileT = new File(System.getProperty("User.dir") + "/webcontent/");
+        File fileT = new File("/web_save_img/");
 //        File fileT = new File(System.getProperty("User.dir") + "/src/main/resources/static/images/");//src\main\resources\static
         if (!fileT.exists()) {
             fileT.mkdirs();

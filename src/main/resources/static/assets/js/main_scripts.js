@@ -182,16 +182,25 @@ function getMunePage(val) {
     }else{
        switch (val) {
            case 0:
-               window.location.href ="homepage_info?requestId="+userId;
+               // window.location.href ="homepage_info?requestId="+userId;
+               postCommit('homepage_info',userId);
                break
            case 1:
-               window.location.href ="my_list?requestId="+userId;
+               // window.location.href ="my_list?requestId="+userId;
+               postCommit('my_list',userId);
                break
            case 2:
-               window.location.href ="person?requestId="+userId;
+               // window.location.href ="person?requestId="+userId;
+               postCommit('person',userId);
                break
        }
     }
+}
+function postCommit(ac,id) {
+    document.write("<form action='"+ac+"' method='post' name='post_form' style='display:none'>");
+    document.write("<input type='hidden' name='requestId' value="+id+">");
+    document.write("</form>");
+    document.post_form.submit();
 }
 function getTaskPage(_this) {
     var userId =getCookie("userId");
@@ -201,7 +210,12 @@ function getTaskPage(_this) {
         window.location.href = "";
         return
     }else{
-       window.location.href ="getTaskById?requestId="+userId+"&taskId="+taskId;
+       // window.location.href ="getTaskById?requestId="+userId+"&taskId="+taskId;
+        document.write("<form action='getTaskById' method='post' name='post_form' style='display:none'>");
+        document.write("<input type='hidden' name='requestId' value="+userId+">");
+        document.write("<input type='hidden' name='taskId' value="+taskId+">");
+        document.write("</form>");
+        document.post_form.submit();
     }
 }
 function acceptTask(_this) {
@@ -212,20 +226,26 @@ function acceptTask(_this) {
         window.location.href = "";
         return
     }else{
-       window.location.href ="addUserTask?user_id="+userId+"&task_id="+id;
+       // window.location.href ="addUserTask?user_id="+userId+"&task_id="+id;
+        document.write("<form action='addUserTask' method='post' name='post_form' style='display:none'>");
+        document.write("<input type='hidden' name='user_id' value="+userId+">");
+        document.write("<input type='hidden' name='taskId' value="+id+">");
+        document.write("</form>");
+        document.post_form.submit();
     }
 }
 function compeleteTask(_this) {
     var userId =getCookie("userId");
-    var id = _this.getAttribute("value1");
-    var taskId = _this.getAttribute("value2");
+    // var id = _this.getAttribute("value1");
+    // var taskId = _this.getAttribute("value2");
     if(null == userId){
         alert('登录过期，请从新登录！');
         window.location.href = "";
         return
     }else{
-        document.getElementById("form_compelete").action = "updateCompeleteUserTask?user_id=" + userId + "&userTaskId=" + id+"&taskId="+taskId;
-        document.getElementById("form_compelete").submit();
+        // document.getElementById("form_compelete").action = "updateCompeleteUserTask?user_id=" + userId + "&userTaskId=" + id+"&taskId="+taskId;
+        // document.getElementById("form_compelete").submit();
+        window.location.href = "http://t.cn/EAutyay";
     }
 }
 function onFileChange(target) {

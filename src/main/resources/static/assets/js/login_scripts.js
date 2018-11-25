@@ -131,7 +131,11 @@ jQuery(document).ready(function() {
     //     // $('#hintmessage').html(message);
     //     setTimeout("timeshow()",4000);
     // }
-    setTimeout(function(){document.getElementById("hint").style.display="none";},3000);
+    setTimeout(function(){
+        var hint = document.getElementById("hint");
+        if(null != hint){
+            hint.style.display="none";
+        }},3000);
 });
 // function timeshow(){
 //     $('#operateHint').css("display","none");

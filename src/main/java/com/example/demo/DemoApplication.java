@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.MultipartConfigElement;
-import java.io.File;
-import java.io.IOException;
 
 @Configuration
 @ServletComponentScan(basePackages = "com.example.demo.filter")
@@ -25,7 +23,7 @@ public class DemoApplication extends SpringBootServletInitializer {
     private String maxRequestSize;
 
 
-    public static  String saveImgPath = "";
+//    public static  String saveImgPath = "";
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
@@ -33,19 +31,19 @@ public class DemoApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        initData();
+//        initData();
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    private static void initData() {
-        File directory = new File("");// 参数为空
-        try {
-            saveImgPath = directory.getCanonicalPath()+"_save_img";
-            System.out.println(saveImgPath);
-        } catch (IOException e) {
-           System.err.println("DemoApplication initData IOException"+e.getMessage());
-        }
-    }
+//    private static void initData() {
+//        File directory = new File("");// 参数为空
+//        try {
+//            saveImgPath = directory.getCanonicalPath()+"_save_img";
+//            System.out.println(saveImgPath);
+//        } catch (IOException e) {
+//           System.err.println("DemoApplication initData IOException"+e.getMessage());
+//        }
+//    }
 
     /**
      * * 文件上传配置

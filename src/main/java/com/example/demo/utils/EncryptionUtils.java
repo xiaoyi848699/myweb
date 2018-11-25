@@ -40,6 +40,18 @@ public class EncryptionUtils {
 		}
 		return md5StrBuff.toString();
 	}
+	/**
+	 * 反转
+	 *
+	 * @param str
+	 * @return
+	 */
+	public static String reversal(String str) {
+		return new StringBuffer(str).append("xy").reverse().toString();
+	}
+	public static String getEncryption(String str) {
+		return reversal(getMD5Str(str));
+	}
 
 
 

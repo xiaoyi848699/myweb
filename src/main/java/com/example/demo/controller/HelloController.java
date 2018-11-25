@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
@@ -50,13 +51,14 @@ public class HelloController {
 
 
 	@RequestMapping("/homepage_info")
-	public String getHomepageInfo(String requestId, Model model){
+	public String getHomepageInfo(HttpServletRequest request, String requestId, Model model){
 		//获取总的订单量   获取我的任务和订单量  获取商家任务列表
 		if(Utils.isEmpty(requestId)){
 			model.addAttribute("message",
 					"登录过期，请从新登录！");
 			return "index";
 		}
+		System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
 		Object taskResult = taskService.getSendTask();
 		if(null != taskResult && "error".equals(taskResult.toString())){
 			return "404";

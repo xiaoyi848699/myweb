@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class DbUserController {
 
     //    @ResponseBody
     @RequestMapping("login")
-    public String login(HttpServletResponse response, String username, String password, Model model) {
+    public String login(HttpServletRequest request,HttpServletResponse response, String username, String password, Model model) {
         String result = userService.login(username, password);
         System.out.println(username+"->result:" + result);
         if ("error".equals(result)) {
@@ -83,11 +84,11 @@ public class DbUserController {
             String[] str = result.split(":");
             if (str.length == 2) {
                 setCookie(response, "username", username);
-//                request.getSession().setAttribute("userId",str[1]);
+                request.getSession().setAttribute("userId",str[1]);
 
                 if ("success".equals(str[0])) {
                     setCookie(response, "userId", str[1]);
-                    return helloController.getHomepageInfo(str[1],model);
+                    return helloController.getHomepageInfo(request,str[1],model);
 //                    return "homepage";
                 } else if ("shopkeeper".equals(str[0])) {
                     setCookie(response, "adUserId", str[1]);

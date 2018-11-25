@@ -173,7 +173,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         try {
             int count = 0;
             if("3".equals(status)){
-                String sql="update user_task set status = ?,business_deal_time = ? where id = ?";
+                String sql="update user_task set status = ?,business_deal_time = ? where id = ? and status BETWEEN 1 and 2";
                 Date date = new Date();
                 Timestamp timeStamp = new Timestamp(date.getTime());
                 count= jdbcTemplate.update(sql, new Object[]{status,timeStamp,userTaskId});
@@ -191,27 +191,29 @@ public class UserTaskServiceImpl implements UserTaskService {
             System.out.println("update"+count);
             if(count == 1){
                 return "success";
+            }else{
+                return "操作太频繁";
             }
         }catch (Exception e){
             return "error";
         }
-        return "error";
     }
 
     @Override
     public String updateCompeleteUserTask(String userTaskId, String picPath, String orderId) {
         try {
-            String sql4="update user_task set status = ?,taobao_order_id = ?,screen_pic = ?,user_commit_time = ? where id = ?";
+            String sql4="update user_task set status = ?,taobao_order_id = ?,screen_pic = ?,user_commit_time = ? where id = ? and status = 1";
             Date date = new Date();
             Timestamp timeStamp = new Timestamp(date.getTime());
             int count= jdbcTemplate.update(sql4, new Object[]{2,orderId,picPath,timeStamp,userTaskId});
             System.out.println("update"+count);
             if(count == 1){
                 return "提交成功，等待审核";
+            }else{
+                return "操作太频繁";
             }
         }catch (Exception e){
             return "error";
         }
-        return "error";
     }
 }
