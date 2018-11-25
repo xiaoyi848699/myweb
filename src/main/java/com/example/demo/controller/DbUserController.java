@@ -108,6 +108,36 @@ public class DbUserController {
             return "index";
         }
     }
+    @ResponseBody
+    @RequestMapping("mlogin")
+    public ResponseData login(String username, String password, String from) {
+        if(Utils.isEmpty(username)){
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_param_error);
+            responseData.setMessage("参数错误");
+            return responseData;
+        }
+        if(Utils.isEmpty(password)){
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_param_error);
+            responseData.setMessage("密码错误");
+            return responseData;
+        }
+        String result = userService.login(username, password);
+        System.out.println(username+"->result:" + result);
+        if ("error".equals(result)) {
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_fail);
+            responseData.setMessage("获取数据失败");
+            return responseData;
+        } else {
+            String[] str = result.split(":");
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_succes);
+            responseData.setMessage("获取成功");
+            return responseData;
+        }
+    }
 
     private void setCookie(HttpServletResponse response, String adUserId, String s) {
         Cookie cookie = new Cookie(adUserId, s);
