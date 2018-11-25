@@ -2,10 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserRowMapper;
+import com.example.demo.po.ResponseData;
+import com.example.demo.po.ResponseStatus;
 import com.example.demo.po.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.FileUtils;
-import com.example.demo.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,8 +116,15 @@ public class DbUserController {
     }
 
     @RequestMapping("addUser")
-    public String addUser(String username, String addUserId, Model model) {
-        if(Utils.isEmpty(addUserId)){
+    public String addUser(HttpServletRequest request,String username, String addUserId, Model model) {
+//        if(Utils.isEmpty(addUserId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -127,13 +135,20 @@ public class DbUserController {
         if ("error".equals(result)) {
             return "404.html";
         } else {
-            return getMyAllUserList(addUserId,0,model);
+            return getMyAllUserList(request,addUserId,0,model);
         }
     }
     @RequestMapping("getMyAllUserList")
-    public String getMyAllUserList(String addUserId,int status, Model model) {
+    public String getMyAllUserList(HttpServletRequest request,String addUserId,int status, Model model) {
         System.out.println(status+"getMyAllUserList"+addUserId);
-        if(Utils.isEmpty(addUserId)){
+//        if(Utils.isEmpty(addUserId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -157,6 +172,35 @@ public class DbUserController {
             return "my_recommend_list";
         }
     }
+    @ResponseBody
+    @RequestMapping("myAllUserList")
+    public ResponseData getMyAllUserListResponseBody(HttpServletRequest request,String addUserId,int status, Model model) {
+        System.out.println(status+"getMyAllUserList"+addUserId);
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_login_expired);
+            responseData.setMessage("登录过期，请从新登录！");
+            return responseData;
+        }
+        Object result = userService.getMyAllUserList(addUserId,status);
+        if ("error".equals(result)) {
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_fail);
+            responseData.setMessage("获取数据失败");
+            return responseData;
+        } else {
+            List<User> userList = (List<User>) result;
+            model.addAttribute("status",
+                    status);
+            ResponseData responseData = new ResponseData();
+            responseData.setStatus(ResponseStatus.request_succes);
+            responseData.setMessage("获取成功");
+            responseData.setData(userList);
+            return responseData;
+        }
+    }
 
     @RequestMapping("registerUser")
     public String registerUser(String username, String recommendation, String password, String phone, String email, Model model) {
@@ -170,8 +214,15 @@ public class DbUserController {
         }
     }
     @RequestMapping("changeUserStatus")
-    public String changeUserStatus(String operateId,String id, String status , Model model) {//后台调用
-        if(Utils.isEmpty(operateId)){
+    public String changeUserStatus(HttpServletRequest request,String operateId,String id, String status , Model model) {//后台调用
+//        if(Utils.isEmpty(operateId)){
+//            model.addAttribute("message",
+//                    "登录过期，请从新登录！");
+//            return "index";
+//        }
+        Object sessionUid = request.getSession().getAttribute("userId");
+        System.out.println("HttpServletRequest--->userId"+sessionUid);
+        if(null == operateId || null == sessionUid || !operateId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
@@ -183,7 +234,7 @@ public class DbUserController {
         } else {
             model.addAttribute("message",
                     "操作成功");
-            return getMyAllUserList(operateId,0,model);
+            return getMyAllUserList(request,operateId,0,model);
         }
     }
 
