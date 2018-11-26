@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.MyException;
 import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserRowMapper;
+import com.example.demo.po.JsonResult;
 import com.example.demo.po.ResponseData;
 import com.example.demo.po.ResponseStatus;
 import com.example.demo.po.User;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +51,13 @@ public class DbUserController {
 //    call方法：用于执行存储过程、函数相关语句。
     @ResponseBody
     @RequestMapping("/getUsers")
-    public List<Map<String, Object>> getDbType() {
+    public List<Map<String, Object>> getDbType(int role){
+        logger.info("访问了controller");
+//        int i = role;
 
+        //Exception异常会自动拦截，这里只是做个测试自定义异常
+//        int j = 0 / i;
+//        int x = i / 0;
 
         String sql2 = "select count(*) from user";
         int count = jdbcTemplate.queryForObject(sql2, Integer.class);
@@ -78,6 +86,7 @@ public class DbUserController {
     public String login(HttpServletRequest request,HttpServletResponse response, String username, String password, Model model) {
         String result = userService.login(username, password);
         System.out.println(username+"->result:" + result);
+
         if ("error".equals(result)) {
             model.addAttribute("message",
                     result);

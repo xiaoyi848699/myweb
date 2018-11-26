@@ -24,8 +24,8 @@
         <p style="width:100%;line-height:40px;background:#ff730e;color: white;text-align: center;" th:text="${message}" th:if="${not #strings.isEmpty(message)}" id="hint"></p>
         <div class="page-container"  >
             <h1>登录</h1>
-            <form action="/login" method="post"  enctype="multipart/form-data">
-                <input type="text" name="username" class="username" placeholder="用户名(旺旺号)">
+            <form action="login" method="post"  enctype="multipart/form-data">
+                <input type="text" name="username" class="username" placeholder="用户名">
                 <input type="password" name="password" class="password" placeholder="密码">
                 <button type="submit">登录</button>
                 <div align="center" class="reg_div">还没有账户?  <label  class="register" >立刻注册</label></div>
@@ -36,8 +36,8 @@
 
         <div class="page-container-register" style="margin: 60px auto 0px auto;display: none" >
             <h1>注册</h1>
-            <form action="/registerUser" method="post"  enctype="multipart/form-data">
-                <input type="text" name="username" class="username" placeholder="用户名(旺旺号)">
+            <form action="registerUser" method="post"  enctype="multipart/form-data">
+                <input type="text" name="username" class="username" placeholder="用户名">
                 <input type="text" name="recommendation" class="recommendation" placeholder="推荐码">
                 <input type="text" name="phone" class="phone" placeholder="手机号码">
                 <input type="email" name="email" class="email" placeholder="邮箱">
