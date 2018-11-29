@@ -1,8 +1,9 @@
 package com.example.demo.po;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Task {
+public class Task implements Serializable {
     private int id;
     private String title;
     private String pictures;

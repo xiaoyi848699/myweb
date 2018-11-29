@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -53,9 +54,9 @@ public class DemoApplication extends SpringBootServletInitializer {
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         //文件最大
-        factory.setMaxFileSize(maxFileSize);
+        factory.setMaxFileSize(DataSize.parse(maxFileSize));
         // 设置总上传数据总大小
-        factory.setMaxRequestSize(maxRequestSize);
+        factory.setMaxRequestSize(DataSize.parse(maxRequestSize));
         return factory.createMultipartConfig();
     }
 }

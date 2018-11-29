@@ -1,6 +1,5 @@
 package com.example.demo.po;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.sql.Timestamp;
 
@@ -102,7 +101,6 @@ public class UserTask {
                 '}';
     }
 
-    @NotNull
     static String getUserTaskStatus(int status) {
         switch (status){
             case 1:

@@ -3,12 +3,14 @@ package com.example.demo.service.impl;
 import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.TaskJoinMapper;
 import com.example.demo.map.TaskMapper;
+import com.example.demo.po.ResponseStatus;
 import com.example.demo.po.Task;
 import com.example.demo.po.TaskJoin;
 import com.example.demo.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,17 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private Logger logger =  LoggerFactory.getLogger(MyApplicationListener.class);
+    private Logger logger =  LoggerFactory.getLogger(TaskServiceImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public Object getMySendTask(String uid,int status) {
@@ -47,25 +52,44 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Object getSendTask() {
-        try {
-            String sql="select * from task where status = 1 order by create_time desc";
-            List<Task> userList= jdbcTemplate.query(sql,new TaskMapper());
-            System.out.println("count"+userList);
-            return  userList;
-        }catch (Exception e){
-            return "error";
+        if(redisTemplate.hasKey(ResponseStatus.REDIS_ALL_TASK_LIST)){
+            logger.info("getSendTask from redis");
+            return redisTemplate.opsForValue().get(ResponseStatus.REDIS_ALL_TASK_LIST);
+        }else{
+            try {
+                String sql="select * from task where status = 1 order by create_time desc";
+                List<Task> userList= jdbcTemplate.query(sql,new TaskMapper());
+
+                redisTemplate.opsForValue().set(ResponseStatus.REDIS_ALL_TASK_LIST,userList);
+                redisTemplate.expire(ResponseStatus.REDIS_ALL_TASK_LIST,1, TimeUnit.MINUTES);
+                logger.info("getSendTask from mysql");
+//                System.out.println("count"+userList);
+                return  userList;
+            }catch (Exception e){
+                return "error";
+            }
         }
     }
 
     @Override
     public Object getSendTaskLimit(int max) {
-        try {
-            String sql="select * from task where status = 1 order by create_time desc limit ?";
-            List<Task> userList= jdbcTemplate.query(sql,new Object[]{max},new TaskMapper());
-//            System.out.println("count"+userList);
-            return  userList;
-        }catch (Exception e){
-            return "error";
+        //最新推荐
+        if(redisTemplate.hasKey(ResponseStatus.REDIS_HOS_TASK_LIST)){
+            logger.info("getSendTaskLimit from redis");
+//            System.out.println("getSendTaskLimit from redis");
+            return redisTemplate.opsForValue().get(ResponseStatus.REDIS_HOS_TASK_LIST);
+        }else{
+            try {
+                String sql="select * from task where status = 1 order by create_time desc limit ?";
+                List<Task> userList= jdbcTemplate.query(sql,new Object[]{max},new TaskMapper());
+                redisTemplate.opsForValue().set(ResponseStatus.REDIS_HOS_TASK_LIST,userList);
+                redisTemplate.expire(ResponseStatus.REDIS_HOS_TASK_LIST,1, TimeUnit.MINUTES);
+                logger.info("getSendTaskLimit from mysql");
+//                System.out.println("getSendTaskLimit from mysql"+userList);
+                return  userList;
+            }catch (Exception e){
+                return "error";
+            }
         }
     }
 

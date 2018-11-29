@@ -21,7 +21,7 @@ import java.util.Random;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private Logger logger =  LoggerFactory.getLogger(MyApplicationListener.class);
+    private Logger logger =  LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

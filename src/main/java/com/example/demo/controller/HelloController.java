@@ -7,7 +7,6 @@ import com.example.demo.po.UserTaskJoinU;
 import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserTaskService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,8 @@ public class HelloController {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Autowired
-	private UserService userService;
+//	@Autowired
+//	private UserService userService;
 
 	@Autowired
 	private TaskService taskService;
@@ -49,7 +48,7 @@ public class HelloController {
 	}
 
 
-	@RequestMapping("/homepage_info")
+	@RequestMapping("homepage_info")
 	public String getHomepageInfo(HttpServletRequest request, String requestId, Model model){
 		//获取总的订单量   获取我的任务和订单量  获取商家任务列表
 		Object sessionUid = request.getSession().getAttribute("userId");
@@ -61,6 +60,7 @@ public class HelloController {
 		}
 		System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
 		Object taskResult = taskService.getSendTask();
+		System.out.println("taskResult--->taskResult"+taskResult);
 		if(null != taskResult && "error".equals(taskResult.toString())){
 			return "404";
 		}else{
@@ -152,7 +152,6 @@ public class HelloController {
 		return "add_recommend";
 	}
 
-	@NotNull
 	private List<User> getUsers() {
 		String sql = "select * from user";
 		System.out.println("list:"+sql);
