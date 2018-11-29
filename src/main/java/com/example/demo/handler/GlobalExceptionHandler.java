@@ -1,6 +1,5 @@
 package com.example.demo.handler;
 
-import com.example.demo.exception.MyException;
 import com.example.demo.po.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,11 +120,11 @@ public class GlobalExceptionHandler {
     }
 
     //自定义异常捕获
-    @ExceptionHandler({MyException.class})
-    public String myException(MyException ex) {
-        System.out.println("1111111111111111111");
-        return exceptionFormat(999, ex);
-    }
+//    @ExceptionHandler({MyException.class})
+//    public String myException(MyException ex) {
+//        System.out.println("1111111111111111111");
+//        return exceptionFormat(999, ex);
+//    }
 
     private <T extends Throwable> String exceptionFormat(Integer code, T ex) {
         log.error(String.format(logExceptionFormat, code, ex.getMessage()));

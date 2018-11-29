@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.MyException;
 import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.JsonResult;

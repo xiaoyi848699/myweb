@@ -31,7 +31,7 @@ class TaskJoinMapper : RowMapper<TaskJoin> {
 //select t.*,ut.id as utaskid,ut.create_time as u_create_time,ut.taobao_order_id,ut.screen_pic,ut.status as utask_status,ut.user_commit_time,ut.business_deal_time
 //    private var usertask_id: Int = 0
 //    private var usertask_create_time: Timestamp? = null//任务接受时间
-//    private var taobao_order_id: String? = null//淘宝订单号
+//    private var taobao_order_id: String? = null//订单号
 //    private var screen_pic: String? = null//截图
 //    private var usertask_status: Int = 0
 //    private var user_commit_time: Timestamp? = null//任务完成时间
