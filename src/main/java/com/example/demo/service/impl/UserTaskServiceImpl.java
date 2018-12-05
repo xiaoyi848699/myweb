@@ -145,7 +145,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             int count4= jdbcTemplate.update(sql4, new Object[]{id,userTask.getUser_id(),userTask.getTask_id(),1,timeStamp});
 //            int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,Utils.getTime(new Date().getTime(),"yyyy-MM-dd HH:mm:ss.SSS")});
             System.out.println("insert"+count4);
-            //返回推荐码
+            //返回邀请码
             if(count4 == 1){
                 return  "接受成功，请尽快完成任务，并提交数据";
             }else{

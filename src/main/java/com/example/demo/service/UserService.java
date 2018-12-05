@@ -4,7 +4,7 @@ import com.example.demo.po.User;
 
 public interface UserService {
     /**
-     * 新增推荐
+     * 新增邀请
      * @param username
      * @param addUserId
      * @return

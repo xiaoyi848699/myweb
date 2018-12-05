@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
             alert('登录过期，请从新登录！');
             window.top.location = "";
         }else if(username.length<1){
-            hint.innerHTML = "请输入推荐账号";
+            hint.innerHTML = "请输入邀请账号";
             hint.style.display = 'block';
             setTimeout(function(){document.getElementById("hint_self").style.display="none";},3000);
         }else{

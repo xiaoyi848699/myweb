@@ -1,10 +1,13 @@
 package com.example.demo.po;
 
+import lombok.Data;
+
 import java.sql.Timestamp;
 
 import static com.example.demo.po.Task.getTaskStatus;
 import static com.example.demo.po.UserTask.getUserTaskStatus;
 
+@Data
 public class TaskJoin {
     private int task_id;
     private String title;

@@ -32,15 +32,15 @@ public class UserServiceImpl implements UserService {
             return "用户名不能为空";
         }
         try {
-            //检查用户是否已经存在   已存在返回  查看是否注册   未注册提示已推荐未激活注册  已注册 提示已经注册
+            //检查用户是否已经存在   已存在返回  查看是否注册   未注册提示已邀请未激活注册  已注册 提示已经注册
             String sql="select * from user where username = ?";
             List<User> userList= jdbcTemplate.query(sql, new Object[]{username},new UserRowMapper());
             System.out.println("count"+userList);
             if(null != userList && userList.size()>0){
                 User user =  userList.get(0);
                 if(Utils.isEmpty(user.getPassword())){
-                    // 未注册提示已推荐未激活注册
-                    return "此账号已推荐未激活,推荐码:"+user.getRecommend_code();
+                    // 未注册提示已邀请未激活注册
+                    return "此账号已邀请未激活,邀请码:"+user.getRecommend_code();
                 }else{
                     // 已注册
                     return "此账号已注册";
@@ -68,16 +68,16 @@ public class UserServiceImpl implements UserService {
                 //生成注册码
                 String recommendCode = Utils.getRandomString(6);
                 System.out.println("regiser id"+id+",recommendCode"+recommendCode);
-                //注册推荐用户
+                //注册邀请用户
                 String sql4="insert into user (id,username,role_id,status,recommend_code,recommend_user_id,recommend_time) values (?,?,?,?,?,?,?)";
                 Date date = new Date();
                 Timestamp timeStamp = new Timestamp(date.getTime());
                 int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,timeStamp});
 //            int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,Utils.getTime(new Date().getTime(),"yyyy-MM-dd HH:mm:ss.SSS")});
                 System.out.println("insert"+count4);
-                //返回推荐码
+                //返回邀请码
                 if(count4 == 1){
-                    return  username+"，添加成功，推荐码为:" +recommendCode;
+                    return  username+"，添加成功，邀请码为:" +recommendCode;
                 }else{
                     return "添加失败，请重试";
                 }
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
             return "密码不能使用特殊符合";
         }
         if(Utils.isEmpty(recommendCode)){
-            return "推荐码不能为空";
+            return "邀请码不能为空";
         }
         if(Utils.isEmpty(phone)){
             return "手机号码不能为空";
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
             if(null != userList && userList.size()>0){
                 User user =  userList.get(0);
                 if(Utils.isEmpty(user.getPassword())){
-                    //验证推荐码是否正确，正确的话 进行注册
+                    //验证邀请码是否正确，正确的话 进行注册
                     if(user.getRecommend_code().equals(recommendCode)){
                         String sql4="update user set password = ?, phone = ?,  email = ?, register_time = ?, status = ? where username = ? and recommend_code = ?";
                         Date date = new Date();
@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
                         }else{
                             return "error";
                         }
-                    default: //1已推荐未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
+                    default: //1已邀请未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
                         return "账户无法使用";
                 }
             }else{
@@ -193,7 +193,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Object getMyAllUserList(String addUserId,int status) {
         try {
-            // 1已推荐未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
+            // 1已邀请未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
             if(status == 0){
                 String sql="select * from user where recommend_user_id = ? and status between 1 and 5 order by recommend_time desc";
                 List<User> userList= jdbcTemplate.query(sql, new Object[]{addUserId},new UserMapper());

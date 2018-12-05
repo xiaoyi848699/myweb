@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Object getSendTaskLimit(int max) {
-        //最新推荐
+        //最新邀请
         if(redisTemplate.hasKey(ResponseStatus.REDIS_HOS_TASK_LIST)){
             logger.info("getSendTaskLimit from redis");
 //            System.out.println("getSendTaskLimit from redis");
@@ -134,7 +134,7 @@ public class TaskServiceImpl implements TaskService {
             int count4= jdbcTemplate.update(sql4, new Object[]{id,task.getTitle(),task.getPictures(),task.getTask_describe(),1,task.getCreate_uid(),timeStamp/*,task.getEnd_time()*/});
 //            int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,Utils.getTime(new Date().getTime(),"yyyy-MM-dd HH:mm:ss.SSS")});
             System.out.println("insert"+count4);
-            //返回推荐码
+            //返回邀请码
             if(count4 == 1){
                 return  "添加成功";
             }else{

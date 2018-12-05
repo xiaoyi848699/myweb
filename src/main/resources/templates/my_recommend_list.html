@@ -5,7 +5,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>我的推荐用户</title>
+<title>我的邀请用户</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
@@ -76,20 +76,20 @@
 <div  style="margin: 20px 20px 20px 20px">
 
     <div class="title" th:if="${not #strings.isEmpty(userList)}">
-        <h3>我推荐的用户</h3>
+        <h3>我邀请的用户</h3>
     </div>
     <form action="" id="form_add" method="post" style="margin:20px 0 20px 0"  enctype="multipart/form-data" />
         <div class="form_add" id="formdiv" style="margin: 0 auto;padding: 10px; width: 40%;align: center;height: 50px;border:1px solid #ff730e;border-radius: 5px">
-                <input type="text" id="username" name="username" placeholder="输入推荐账号"
+                <input type="text" id="username" name="username" placeholder="输入邀请账号"
                        style="width: 80%;height: 30px;padding: 3px" />
-                <h5  class="commit_task" id="commit_task">新增推荐</h5>
+                <h5  class="commit_task" id="commit_task">提交</h5>
         </div>
     </form>
 
     <form action="" id="form_filter"  method="post">
         筛选条件:
         <label><input name="status" type="radio" value="0" th:checked="${status eq 0}" onclick="filterUser(this.value)"/>全部 </label>
-        <label><input name="status" type="radio" value="1" th:checked="${status eq 1}" onclick="filterUser(this.value)"/>已推荐未注册 </label>
+        <label><input name="status" type="radio" value="1" th:checked="${status eq 1}" onclick="filterUser(this.value)"/>已邀请未注册 </label>
         <label><input name="status" type="radio" value="2" th:checked="${status eq 2}" onclick="filterUser(this.value)"/>正常 </label>
         <label><input name="status" type="radio" value="3" th:checked="${status eq 3}" onclick="filterUser(this.value)"/>不安全 </label>
         <label><input name="status" type="radio" value="4" th:checked="${status eq 4}" onclick="filterUser(this.value)"/>禁用 </label>
@@ -102,10 +102,10 @@
         <tr align="center" style="width: 100%;height: 30px;text-align: center">
             <th>编号</th>
             <th>用户名</th>
-            <th>推荐码</th>
+            <th>邀请码</th>
             <th>手机号码</th>
             <th>邮箱</th>
-            <th>推荐时间</th>
+            <th>邀请时间</th>
             <th>注册时间</th>
             <th>收款码</th>
             <th>状态</th>

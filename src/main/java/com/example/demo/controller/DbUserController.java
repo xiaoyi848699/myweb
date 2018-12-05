@@ -262,7 +262,7 @@ public class DbUserController {
                     "登录过期，请从新登录！");
             return "index";
         }
-        //1已推荐未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
+        //1已邀请未注册 2已注册正常  3账户不安全 4账户被禁用 5账户被删除
         String result = userService.updateUserStatus(id, status);
         if ("error".equals(result)) {
             return "404";
