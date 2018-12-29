@@ -32,14 +32,14 @@ public class DbTaskController {
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
         }
         Object result = taskService.getMySendTask(addUserId,status);
-        logger.info("getMySendTask:"+result);
+//        logger.info("getMySendTask:"+result);
         if(null != result && "error".equals(result.toString())){
             return "404";
         }else{
@@ -64,13 +64,13 @@ public class DbTaskController {
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == requestId || null == sessionUid || !requestId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
             return "index";
         }
-        System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
+//        System.out.println("HttpServletRequest--->userId"+request.getSession().getAttribute("userId"));
         Object result = taskService.getSendTask();
         if(null != result && "error".equals(result.toString())){
             return "404.html";
@@ -99,7 +99,7 @@ public class DbTaskController {
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == requestId || null == sessionUid || !requestId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
@@ -154,7 +154,7 @@ public class DbTaskController {
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == String.valueOf(uid) || null == sessionUid || !String.valueOf(uid).equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
@@ -180,7 +180,7 @@ public class DbTaskController {
                 task.setPictures(path);
             }
         }
-        logger.info("addTask task:"+task);
+//        logger.info("addTask task:"+task);
         String result = taskService.addTask(task);
         logger.info("addTask result:"+result);
         if("error".equals(result)){

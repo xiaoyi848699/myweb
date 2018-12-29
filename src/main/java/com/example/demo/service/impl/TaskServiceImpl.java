@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.TaskJoinMapper;
 import com.example.demo.map.TaskMapper;
 import com.example.demo.po.ResponseStatus;
@@ -37,12 +36,12 @@ public class TaskServiceImpl implements TaskService {
             if(status == 0){
                 String sql="select * from task where create_uid = ? and status between 1 and 2 order by create_time desc";
                 List<Task> userList= jdbcTemplate.query(sql, new Object[]{uid},new TaskMapper());
-                System.out.println("count"+userList);
+//                System.out.println("count"+userList);
                 return  userList;
             }
             String sql="select * from task where create_uid = ? and status = ? order by create_time desc";
             List<Task> userList= jdbcTemplate.query(sql, new Object[]{uid,status},new TaskMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -99,7 +98,7 @@ public class TaskServiceImpl implements TaskService {
             String sql="select t.*,ut.id as utaskid,ut.create_time as u_create_time,ut.taobao_order_id,ut.screen_pic,ut.status as utask_status,ut.user_commit_time,ut.business_deal_time" +
                     " from (select * from task where id = ?) as t LEFT JOIN (select * from user_task where user_id = ?) as ut on t.id=ut.task_id ";
             List<TaskJoin> userList= jdbcTemplate.query(sql, new Object[]{taskId,requestId},new TaskJoinMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -133,7 +132,7 @@ public class TaskServiceImpl implements TaskService {
             Timestamp timeStamp = new Timestamp(date.getTime());
             int count4= jdbcTemplate.update(sql4, new Object[]{id,task.getTitle(),task.getPictures(),task.getTask_describe(),1,task.getCreate_uid(),timeStamp/*,task.getEnd_time()*/});
 //            int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,Utils.getTime(new Date().getTime(),"yyyy-MM-dd HH:mm:ss.SSS")});
-            System.out.println("insert"+count4);
+//            System.out.println("insert"+count4);
             //返回邀请码
             if(count4 == 1){
                 return  "添加成功";
@@ -151,7 +150,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             String sql4="update task set status = ? where id = ?";
             int count= jdbcTemplate.update(sql4, new Object[]{status,taskId});
-            System.out.println("update"+count);
+//            System.out.println("update"+count);
             if(count == 1){
                 return "success";
             }

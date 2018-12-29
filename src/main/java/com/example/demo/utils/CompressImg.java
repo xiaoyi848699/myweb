@@ -52,11 +52,11 @@ public class CompressImg {
                     if(results[0] > widthdist){
                         //通过宽算高缩减后的高度
                         heightdist = widthdist * results[1] / results[0];
-                        System.out.println("heightdist" + heightdist);
+//                        System.out.println("heightdist" + heightdist);
                     }else if(results[1] > heightdist){
                         //通过高度算宽
                         widthdist = heightdist * results[0] / results[1];
-                        System.out.println("widthdist" + widthdist);
+//                        System.out.println("widthdist" + widthdist);
                     }
                 }
             }

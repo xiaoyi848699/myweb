@@ -27,7 +27,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         try {
             String sql="select * from user_task where task_id = ?";
             List<UserTask> userList= jdbcTemplate.query(sql, new Object[]{taskId},new UserTaskMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -43,7 +43,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             if(status == 0){//查询1、2
                 sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status BETWEEN 1 and 3  order by user_task.create_time desc ";
                 List<UserTaskJoinM> userList= jdbcTemplate.query(sql, new Object[]{uid},new UserTaskJoinMMapper());
-                System.out.println("count"+userList);
+//                System.out.println("count"+userList);
                 return  userList;
             }else if(status == 1){
                 userTaskStatus = 1;
@@ -55,7 +55,7 @@ public class UserTaskServiceImpl implements UserTaskService {
                 sql="select  user_task.*,task.title,user.username,user.receipt_code from task INNER JOIN user_task on task.id = user_task.task_id  INNER JOIN user on user.id = user_task.user_id   where create_uid = ? and user_task.status = ? order by user_task.user_commit_time desc ";
             }
             List<UserTaskJoinM> userList= jdbcTemplate.query(sql, new Object[]{uid,userTaskStatus},new UserTaskJoinMMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -71,7 +71,7 @@ public class UserTaskServiceImpl implements UserTaskService {
                     "INNER JOIN user on user.id = task.create_uid  " +
                     "where user_task.user_id = ? and user_task.status BETWEEN 1 and 3  order by user_task.create_time desc";
             List<UserTaskJoinU> userList= jdbcTemplate.query(sql, new Object[]{uid},new UserTaskJoinUMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -83,7 +83,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         try {
             String sql="select * from user_task where user_id = ?";
             List<UserTask> userList= jdbcTemplate.query(sql, new Object[]{userId},new UserTaskMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -95,7 +95,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         try {
             String sql="select count(*) from user_task";
            int count= jdbcTemplate.queryForObject(sql, Integer.class);
-            System.out.println("count"+count);
+//            System.out.println("count"+count);
             return  count;
         }catch (Exception e){
             return 999;
@@ -116,8 +116,8 @@ public class UserTaskServiceImpl implements UserTaskService {
                     "  where  user_task.user_id =? and user_task.status BETWEEN 1 and 2";
             int size= jdbcTemplate.queryForObject(sql, new Object[]{userTask.getTask_id(),userTask.getUser_id()},Integer.class);
             if(size > 0){
-                System.out.println("不能再接受他的任务getTask_id"+userTask.getTask_id()+",getUser_id"+userTask.getUser_id());
-                return "您已接收过此雇主的任务，任务在完成前不能再接受他的任务";
+//                System.out.println("不能再接受他的任务getTask_id"+userTask.getTask_id()+",getUser_id"+userTask.getUser_id());
+                return "您已接收过此发布者的任务，任务在完成前不能再接受他的任务";
             }
 
             //生成Id，并检查
@@ -144,7 +144,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             Timestamp timeStamp = new Timestamp(date.getTime());
             int count4= jdbcTemplate.update(sql4, new Object[]{id,userTask.getUser_id(),userTask.getTask_id(),1,timeStamp});
 //            int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,Utils.getTime(new Date().getTime(),"yyyy-MM-dd HH:mm:ss.SSS")});
-            System.out.println("insert"+count4);
+//            System.out.println("insert"+count4);
             //返回邀请码
             if(count4 == 1){
                 return  "接受成功，请尽快完成任务，并提交数据";
@@ -161,7 +161,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         try {
             String sql="select * from user_task where id = ?";
             List<UserTask> userList= jdbcTemplate.query(sql, new Object[]{userTaskId},new UserTaskMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return  userList;
         }catch (Exception e){
             return "error";
@@ -188,7 +188,7 @@ public class UserTaskServiceImpl implements UserTaskService {
                 String sql="update user_task set status = ? where id = ?";
                 count= jdbcTemplate.update(sql, new Object[]{status,userTaskId});
             }
-            System.out.println("update"+count);
+//            System.out.println("update"+count);
             if(count == 1){
                 return "success";
             }else{
@@ -206,7 +206,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             Date date = new Date();
             Timestamp timeStamp = new Timestamp(date.getTime());
             int count= jdbcTemplate.update(sql4, new Object[]{2,orderId,picPath,timeStamp,userTaskId});
-            System.out.println("update"+count);
+//            System.out.println("update"+count);
             if(count == 1){
                 return "提交成功，等待审核";
             }else{

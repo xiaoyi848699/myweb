@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserMapper;
 import com.example.demo.map.UserRowMapper;
 import com.example.demo.po.User;
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
             //检查用户是否已经存在   已存在返回  查看是否注册   未注册提示已邀请未激活注册  已注册 提示已经注册
             String sql="select * from user where username = ?";
             List<User> userList= jdbcTemplate.query(sql, new Object[]{username},new UserRowMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             if(null != userList && userList.size()>0){
                 User user =  userList.get(0);
                 if(Utils.isEmpty(user.getPassword())){
@@ -67,14 +66,14 @@ public class UserServiceImpl implements UserService {
                 }
                 //生成注册码
                 String recommendCode = Utils.getRandomString(6);
-                System.out.println("regiser id"+id+",recommendCode"+recommendCode);
+//                System.out.println("regiser id"+id+",recommendCode"+recommendCode);
                 //注册邀请用户
                 String sql4="insert into user (id,username,role_id,status,recommend_code,recommend_user_id,recommend_time) values (?,?,?,?,?,?,?)";
                 Date date = new Date();
                 Timestamp timeStamp = new Timestamp(date.getTime());
                 int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,timeStamp});
 //            int count4= jdbcTemplate.update(sql4, new Object[]{id,username,4,1,recommendCode,addUserId,Utils.getTime(new Date().getTime(),"yyyy-MM-dd HH:mm:ss.SSS")});
-                System.out.println("insert"+count4);
+//                System.out.println("insert"+count4);
                 //返回邀请码
                 if(count4 == 1){
                     return  username+"，添加成功，邀请码为:" +recommendCode;
@@ -113,7 +112,7 @@ public class UserServiceImpl implements UserService {
             //如果已注册  提示已经注册
             String sql2="select * from user where username = ?";
             List<User> userList= jdbcTemplate.query(sql2, new Object[]{username},new UserRowMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             if(null != userList && userList.size()>0){
                 User user =  userList.get(0);
                 if(Utils.isEmpty(user.getPassword())){
@@ -123,7 +122,7 @@ public class UserServiceImpl implements UserService {
                         Date date = new Date();
                         Timestamp timeStamp = new Timestamp(date.getTime());
                         int count= jdbcTemplate.update(sql4, new Object[]{EncryptionUtils.getEncryption(password),phone,email,timeStamp,2,username,recommendCode});
-                        System.out.println("update"+count);
+//                        System.out.println("update"+count);
                         if(count == 1){
                             return "注册成功";
                         }
@@ -154,11 +153,11 @@ public class UserServiceImpl implements UserService {
             return "密码错误";
         }
 
-        System.out.println("username:"+username+password);
+//        System.out.println("username:"+username+password);
         try {
             String sql="select * from user where username = ? and password =?";
             List<User> userList= jdbcTemplate.query(sql, new Object[]{username,EncryptionUtils.getEncryption(password)},new UserRowMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             if(null != userList && userList.size()>0){
                 User user = userList.get(0);
                 //登录成功进入主界面
@@ -197,12 +196,12 @@ public class UserServiceImpl implements UserService {
             if(status == 0){
                 String sql="select * from user where recommend_user_id = ? and status between 1 and 5 order by recommend_time desc";
                 List<User> userList= jdbcTemplate.query(sql, new Object[]{addUserId},new UserMapper());
-                System.out.println("count"+userList);
+//                System.out.println("count"+userList);
                 return userList;
             }
             String sql="select * from user where recommend_user_id = ? and status = ? order by recommend_time desc";
             List<User> userList= jdbcTemplate.query(sql, new Object[]{addUserId,status},new UserMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return userList;
         }catch (Exception e){
             logger.error("getAllUserList Exception"+e.getMessage());
@@ -215,7 +214,7 @@ public class UserServiceImpl implements UserService {
         try {
             String sql="select * from user where username = ? ";
             List<User> userList= jdbcTemplate.query(sql, new Object[]{username},new UserMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return userList;
         }catch (Exception e){
             logger.error("getUserByName Exception"+e.getMessage());
@@ -228,7 +227,7 @@ public class UserServiceImpl implements UserService {
         try {
             String sql="select * from user where id = ? ";
             List<User> userList= jdbcTemplate.query(sql, new Object[]{id},new UserMapper());
-            System.out.println("count"+userList);
+//            System.out.println("count"+userList);
             return userList;
         }catch (Exception e){
             return "error";
@@ -240,7 +239,7 @@ public class UserServiceImpl implements UserService {
         try {
             String sql4="update user set phone = ?,  email = ?, status = ? where id = ?";
             int count= jdbcTemplate.update(sql4, new Object[]{user.getPhone(),user.getEmail(),user.getStatus(),user.getId()});
-            System.out.println("update"+count);
+//            System.out.println("update"+count);
             if(count == 1){
                 return "success";
             }
@@ -255,7 +254,7 @@ public class UserServiceImpl implements UserService {
         try {
             String sql4="update user set receipt_code = ? where id = ?";
             int count= jdbcTemplate.update(sql4, new Object[]{codePath,id});
-            System.out.println("update"+count);
+//            System.out.println("update"+count);
             if(count == 1){
                 return "上传成功";
             }
@@ -270,7 +269,7 @@ public class UserServiceImpl implements UserService {
         try {
             String sql4="update user set status = ? where id = ?";
             int count= jdbcTemplate.update(sql4, new Object[]{status,id});
-            System.out.println("update"+count);
+//            System.out.println("update"+count);
             if(count == 1){
                 return "success";
             }

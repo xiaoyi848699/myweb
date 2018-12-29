@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.filter.MyApplicationListener;
 import com.example.demo.map.UserRowMapper;
-import com.example.demo.po.JsonResult;
 import com.example.demo.po.ResponseData;
 import com.example.demo.po.ResponseStatus;
 import com.example.demo.po.User;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,13 +58,13 @@ public class DbUserController {
 
         String sql2 = "select count(*) from user";
         int count = jdbcTemplate.queryForObject(sql2, Integer.class);
-        System.out.println("count" + count);
+//        System.out.println("count" + count);
 
 
         String sql = "select * from user";
-        System.out.println("list:" + sql);
+//        System.out.println("list:" + sql);
         List<User> userList = jdbcTemplate.query(sql, new UserRowMapper());
-        System.out.println("userList:" + userList);
+//        System.out.println("userList:" + userList);
 
 //        String sql3="delete from user where id=?";
 //        jdbcTemplate.update(sql3,51);
@@ -76,7 +74,7 @@ public class DbUserController {
 //        System.out.println(count4);
 
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
-        System.out.println("list:" + list);
+//        System.out.println("list:" + list);
         return list;
     }
 
@@ -84,7 +82,7 @@ public class DbUserController {
     @RequestMapping("login")
     public String login(HttpServletRequest request,HttpServletResponse response, String username, String password, Model model) {
         String result = userService.login(username, password);
-        System.out.println(username+"->result:" + result);
+//        System.out.println(username+"->result:" + result);
 
         if ("error".equals(result)) {
             model.addAttribute("message",
@@ -132,7 +130,7 @@ public class DbUserController {
             return responseData;
         }
         String result = userService.login(username, password);
-        System.out.println(username+"->result:" + result);
+//        System.out.println(username+"->result:" + result);
         if ("error".equals(result)) {
             ResponseData responseData = new ResponseData();
             responseData.setStatus(ResponseStatus.request_fail);
@@ -162,7 +160,7 @@ public class DbUserController {
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
@@ -179,14 +177,14 @@ public class DbUserController {
     }
     @RequestMapping("getMyAllUserList")
     public String getMyAllUserList(HttpServletRequest request,String addUserId,int status, Model model) {
-        System.out.println(status+"getMyAllUserList"+addUserId);
+//        System.out.println(status+"getMyAllUserList"+addUserId);
 //        if(Utils.isEmpty(addUserId)){
 //            model.addAttribute("message",
 //                    "登录过期，请从新登录！");
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == addUserId || null == sessionUid || !addUserId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");
@@ -214,7 +212,7 @@ public class DbUserController {
     @ResponseBody
     @RequestMapping("myAllUserList")
     public ResponseData getMyAllUserListResponseBody(String addUserId,int status,String from,String token) {
-        System.out.println(status+"getMyAllUserList"+addUserId);
+//        System.out.println(status+"getMyAllUserList"+addUserId);
         if(Utils.isEmpty(addUserId)){
             ResponseData responseData = new ResponseData();
             responseData.setStatus(ResponseStatus.request_param_error);
@@ -256,7 +254,7 @@ public class DbUserController {
 //            return "index";
 //        }
         Object sessionUid = request.getSession().getAttribute("userId");
-        System.out.println("HttpServletRequest--->userId"+sessionUid);
+//        System.out.println("HttpServletRequest--->userId"+sessionUid);
         if(null == operateId || null == sessionUid || !operateId.equals(sessionUid.toString())){
             model.addAttribute("message",
                     "登录过期，请从新登录！");

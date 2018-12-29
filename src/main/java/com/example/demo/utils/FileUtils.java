@@ -24,7 +24,7 @@ public class FileUtils {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(savePath+ filename);
             Files.write(path, bytes);
-            System.out.println(savePath+ filename);
+//            System.out.println(savePath+ filename);
         } catch (IOException e) {
             return "error";
         }
@@ -56,18 +56,18 @@ public class FileUtils {
         if (!fileT.exists()) {
             fileT.mkdirs();
         }
-        System.out.println("fileT:"+fileT.getAbsolutePath());
+//        System.out.println("fileT:"+fileT.getAbsolutePath());
         return fileT.getAbsolutePath()+"/";
     }
     public static String getPicSaveName(String id,String fileName){
-        System.out.println(fileName);
+//        System.out.println(fileName);
         String filename=id+"_";
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
         String date=sdf.format(new Date());
         filename+=date;
         Random r=new Random();
         filename+=r.nextInt(1000)+fileName.substring(fileName.lastIndexOf("."));
-        System.out.println(filename);
+//        System.out.println(filename);
         return filename;
     }
 }

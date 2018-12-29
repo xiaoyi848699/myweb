@@ -74,7 +74,7 @@ public class IpFilter implements Filter{
         if (ipMap.containsKey(ip)) {
             Long[] ipInfo = ipMap.get(ip);
             ipInfo[0] = ipInfo[0] + 1;
-            System.out.println("当前第[" + (ipInfo[0]) + "]次访问");
+//            System.out.println("当前第[" + (ipInfo[0]) + "]次访问");
             if (ipInfo[0] > LIMIT_NUMBER) {
                 Long ipAccessTime = ipInfo[1];
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -90,7 +90,7 @@ public class IpFilter implements Filter{
             }
         } else {
             initIpVisitsNumber(ipMap, ip);
-            System.out.println("您首次访问该网站");
+//            System.out.println("您首次访问该网站");
         }
         context.setAttribute("ipMap", ipMap);
         chain.doFilter(request, response);
